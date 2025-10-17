@@ -14,7 +14,7 @@ export const Logo = () => {
         />
 
         <h1 className="hidden md:block text-2xl font-bold">
-          Dream <span className="text-[#FFBF00]">Future</span>
+          Dream <span className="text-primary">Future</span>
         </h1>
       </div>
     </Link>

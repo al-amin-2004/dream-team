@@ -1,13 +1,13 @@
 import React, { MouseEventHandler, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-interface ButtonTypes {
+interface ButtonProps {
   className?: string;
   children: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-export const Button: React.FC<ButtonTypes> = ({
+export const Button: React.FC<ButtonProps> = ({
   children,
   className,
   onClick,
@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonTypes> = ({
     <button
       onClick={onClick}
       className={cn(
-        "px-4 py-1.5 rounded-full text-sm font-semibold font-heading cursor-pointer text-text bg-primary hover:bg-[#E6AC00] hover:translate-x-0.5 transition-all duration-300 ease-in-out",
+        "text-sm font-semibold text-black bg-primary hover:bg-[#E6AC00] px-4 py-1.5 rounded-full hover:translate-x-0.5 transition-all duration-300 ease-in-out cursor-pointer",
         className
       )}
       {...props}
