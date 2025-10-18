@@ -4,11 +4,14 @@ import Header from "./_components/shared/Header";
 export default function Page() {
   return (
     <>
+      <div
+        className="absolute w-full h-[60rem] -z-50 top-0"
+        style={{
+          backgroundImage: `radial-gradient(circle at 15% 30%, rgba(255, 191, 0, 0.06) 0, transparent 40%)`,
+        }}
+      />
       <Header />
       <Hero />
-      <div className="h-screen flex justify-center items-center text-3xl sm:text-5xl md:text-6xl font-medium text-[#FFBF00]">
-        Hello Dream future!
-      </div>
     </>
   );
 }

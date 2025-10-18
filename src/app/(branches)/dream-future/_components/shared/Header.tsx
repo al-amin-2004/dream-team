@@ -24,7 +24,7 @@ const Header: FC = () => {
       <div className="relative w-11/12 md:w-10/12 mx-auto p-0.5 px-2 md:p-3 rounded-md backdrop-blur-md bg-slate-300/10 flex justify-between items-center">
         <Logo />
 
-        <div className="flex items-center md:gap-10">
+        <div className="flex items-center gap-2 md:gap-10">
           <ul
             className={`absolute md:static h-0 md:h-auto w-full md:w-auto top-full left-0 overflow-hidden p-0 rounded-b-md bg-slate-300/30 md:bg-transparent md:flex items-center gap-5 transition-all duration-300 ${
               navOpen && "h-[7.2rem] p-1"
