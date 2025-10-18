@@ -121,6 +121,6 @@
     @apply bg-background text-foreground;
   }
   .container {
-    @apply mx-auto px-[clamp(1rem,5vw,4rem)];
+    @apply mx-auto px-3 md:px-4 2xl:p-0;
   }
 }
