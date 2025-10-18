@@ -17,7 +17,7 @@ export const Button: React.FC<ButtonProps> = ({
     <button
       onClick={onClick}
       className={cn(
-        "text-sm font-semibold text-black bg-primary hover:bg-[#E6AC00] px-4 py-1.5 rounded-full hover:translate-x-0.5 transition-all duration-300 ease-in-out cursor-pointer",
+        "text-sm font-semibold text-nowrap text-black bg-primary hover:bg-[#E6AC00] px-4 py-1.5 rounded-full flex items-center hover:translate-x-0.5 transition-all duration-300 ease-in-out cursor-pointer",
         className
       )}
       {...props}
