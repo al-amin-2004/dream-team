@@ -19,20 +19,27 @@ const Hero = () => {
           </p>
 
           <div className="space-x-10">
-            <Button>Get Started</Button>
-            <Button>Learn More</Button>
+            <Button variant="outline">Get Started</Button>
+            <Button variant="outline">Learn More</Button>
           </div>
         </div>
 
         {/* Right Side of Hero Section */}
-        <div className="lg:flex-1/2 w-full flex flex-col items-center">
-          {/* <FormUid /> */}
+        <div className="lg:flex-1/2 w-full flex flex-col items-center justify-center">
+          <Image
+            src="/logos/dream-future-logo-white.png"
+            width={500}
+            height={500}
+            alt="robothand Image"
+            className="md:translate-x-16 w-[clamp(15rem,40vw,25rem)] md:hidden lg:block"
+          />
+
           <Image
             src="/robothand.png"
             width={1000}
-            height={1000}
+            height={500}
             alt="robothand Image"
-            className="absolute right-0 bottom-10 md:w-[clamp(20rem,50vw,55rem)]"
+            className="absolute right-0 bottom-10 lg:w-[clamp(20rem,50vw,55rem)]"
           />
         </div>
       </div>
