@@ -4,7 +4,7 @@ import { Button } from "../ui/Button";
 const Hero = () => {
   return (
     <section>
-      <div className="container flex flex-col lg:flex-row gap-10">
+      <div className="container h-screen flex flex-col lg:flex-row gap-10">
         {/* Left Side of Hero Section */}
         <div className="lg:flex-5/12 space-y-6 lg:space-y-9 mt-4 lg:mt-16">
           <p className="font-semibold text-xl lg:text-2xl text-primary">
@@ -25,7 +25,7 @@ const Hero = () => {
         </div>
 
         {/* Right Side of Hero Section */}
-        <div className="lg:flex-1/2 w-full flex flex-col items-center justify-center">
+        <div className="lg:flex-1/2 w-full flex flex-col items-center lg:mt-20">
           <Image
             src="/logos/dream-future-logo-white.png"
             width={500}
