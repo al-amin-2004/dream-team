@@ -1,56 +1,55 @@
 import { DiamondIcon } from "@/icons";
 import Image from "next/image";
-import Box3D from "../../_components/ui/Box";
+import Box3D from "../../_components/ui/StageBox";
+import { Stage, StageItem } from "../../_components/ui/Stage";
 
 const leaderboard = async () => {
   return (
     <>
       <div
-        className="absolute -z-50 h-[50rem] w-full top-0 -mt-5 md:-mt-10"
+        className="absolute -z-50 h-[25rem] md:h-[50rem] w-full top-0 -mt-5 md:-mt-10"
         style={{
           background:
-            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(251, 191, 36, 0.25), transparent 70%)",
+            "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(251, 191, 36, 0.18), transparent 75%)",
         }}
       />
 
       <div className="container">
         <section>
-          <div className="flex justify-center items-center gap-[7rem] h-[calc(100vh-20rem)]">
-            <Box3D
-              position={2}
-              name={"AL AMIN"}
-              img={"/logos/dream-future-logo-white.png"}
-            />
-            <Box3D
-              position={1}
-              name={"MD MONIRUL ISLAM"}
-              img={"/logos/dream-future-logo-white.png"}
-            />
-            <Box3D
-              position={3}
-              name={"ABRARUL HASAN SAJIB"}
-              img={"/logos/dream-future-logo-white.png"}
-            />
+          {/* Leaderboard Stage for Pc */}
+          <div className="hidden lg:flex justify-center items-center gap-[7rem] h-[calc(100vh-20rem)]">
+            <Box3D position={2} name={"AL AMIN"} />
+            <Box3D position={1} name={"MD MONIRUL ISLAM"} />
+            <Box3D position={3} name={"ABRARUL HASAN SAJIB"} />
+          </div>
+
+          {/* Leaderboard Stage for Mobile */}
+          <div className={"mt-30 block lg:hidden"}>
+            <Stage>
+              <StageItem position={2} name="Al amin" totalStone={203} />
+              <StageItem position={1} name="Al amin" totalStone={203} />
+              <StageItem position={3} name="Al amin" totalStone={203} />
+            </Stage>
           </div>
         </section>
 
         <table className="w-full">
           <thead>
-            <tr className="border-b-2 text-primary">
-              <th className="p-2.5 text-left w-30">Rank</th>
-              <th className="p-2.5 text-left w-auto">User Name</th>
-              <th className="p-2.5 text-right w-20">Stone</th>
+            <tr className="[&>th]:py-3 [&>th]:px-1.5 [&>th]:last:text-right  text-left border-b-2 text-primary">
+              <th className="w-10 md:w-30">Rank</th>
+              <th>User Name</th>
+              <th className="w-10 md:w-20">Stone</th>
             </tr>
           </thead>
           <tbody>
             {Array.from({ length: 50 }).map((_, idx) => (
               <tr
                 key={idx}
-                className="even:bg-[#1d2130] [&>td]:first:rounded-tl-sm [&>td]:first:rounded-bl-sm [&>td]:last:rounded-tr-sm [&>td]:last:rounded-br-sm text-sm md:text-base rounded-2xl overflow-hidden"
+                className="[&>td]:first:rounded-tl-sm [&>td]:first:rounded-bl-sm [&>td]:last:rounded-tr-sm [&>td]:last:rounded-br-sm [&>td]:py-1.5 [&>td]:first:ps-2 [&>td]:last:pe-2 md:[&>td]:py-2 md:[&>td]:first:ps-3 md:[&>td]:last:pe-3 [&>td]:last:text-right even:bg-[#1d2130] text-sm md:text-base"
               >
-                <td className="p-2">{idx + 1}</td>
-                <td className="p-2">
-                  <span className="inline-flex items-center gap-3">
+                <td>{idx + 1}</td>
+                <td>
+                  <span className="inline-flex items-center gap-1.5 md:gap-3">
                     <Image
                       src={
                         false
@@ -65,7 +64,7 @@ const leaderboard = async () => {
                     <p>Al amin</p>
                   </span>
                 </td>
-                <td className="p-2 text-right">
+                <td>
                   <span className="inline-flex items-center justify-center gap-1 px-2 rounded-full bg-gray-200/20">
                     <DiamondIcon className="size-4" />
                     <p>00</p>

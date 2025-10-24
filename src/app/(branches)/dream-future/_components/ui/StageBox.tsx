@@ -1,10 +1,10 @@
 import { CSSProperties, FC } from "react";
 import Image from "next/image";
 
-interface Box3DProps {
+interface StageBoxProps {
   position: number;
   name: string;
-  img?: string;
+  image?: string;
 }
 
 type CSSVariables = CSSProperties & { "--size"?: string };
@@ -22,7 +22,7 @@ const getBoxSize = (position: number) => {
   }
 };
 
-const Box3D: FC<Box3DProps> = ({ position, name, img }) => {
+const Box3D: FC<StageBoxProps> = ({ position, name, image }) => {
   const style: CSSVariables = {
     "--size": getBoxSize(position),
   };
@@ -34,7 +34,7 @@ const Box3D: FC<Box3DProps> = ({ position, name, img }) => {
       >
         <div className="size-7/12 mx-auto bg-white/40 overflow-hidden rounded-lg -mb-3">
           <Image
-            src={img ? img : "/logos/dream-future-logo-white.png"}
+            src={image ? image : "/logos/dream-future-logo-white.png"}
             width={500}
             height={500}
             alt="leaderboard Image"
@@ -75,7 +75,7 @@ const Box3D: FC<Box3DProps> = ({ position, name, img }) => {
                   width={500}
                   height={500}
                   alt="leaderboard Number Image"
-                  className="w-6/12 p-2"
+                  className="w-5/12 p-2"
                 />
               ) : (
                 <b className="text-7xl italic">
