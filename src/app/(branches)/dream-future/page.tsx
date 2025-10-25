@@ -14,7 +14,7 @@ export default function Page() {
       />
       <Header />
       <Hero />
-      <FinotiveFunding />
+      {/* <FinotiveFunding /> */}
       <Services />
     </>
   );

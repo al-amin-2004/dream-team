@@ -1,5 +1,5 @@
-import { IconSvgProps } from "@/types";
 import { FC } from "react";
+import { IconSvgProps } from "@/types";
 
 export const BarsIcon: FC<IconSvgProps> = (className) => {
   return (
