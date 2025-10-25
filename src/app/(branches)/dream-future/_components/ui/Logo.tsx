@@ -8,8 +8,8 @@ export const Logo: FC = () => {
       <div className="flex items-center gap-2 cursor-pointer">
         <Image
           src="/logos/dream-future-logo-white.png"
-          width={400}
-          height={400}
+          width={500}
+          height={500}
           alt="Dream-Future Logo"
           className="w-12 md:w-14"
         />

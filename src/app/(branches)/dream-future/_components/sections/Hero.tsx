@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "../ui/Button";
+import robotHand from "@/../public/robothand.png";
 
 const Hero = () => {
   return (
@@ -35,9 +36,11 @@ const Hero = () => {
           />
 
           <Image
-            src="/robothand.png"
+            src={robotHand}
             width={1000}
             height={500}
+            priority
+            fetchPriority="high"
             alt="robothand Image"
             className="absolute right-0 bottom-10 lg:w-[clamp(20rem,50vw,55rem)]"
           />

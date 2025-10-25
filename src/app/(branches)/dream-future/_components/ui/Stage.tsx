@@ -2,6 +2,7 @@ import { FC, ReactNode } from "react";
 import Image from "next/image";
 import { DiamondIcon, KingIcon } from "@/icons";
 import { cn } from "@/lib/utils";
+import logo from "@/../public/logos/dream-future-logo-white.png";
 
 interface StageProps {
   className?: string;
@@ -62,12 +63,11 @@ const StageItem: FC<StageItemProps> = ({
               src={
                 image
                   ? `https://drive.google.com/uc?export=view&id=${image}`
-                  : "/logos/dream-future-logo-white.png"
+                  : logo
               }
-              width={500}
-              height={500}
+              fill
+              priority
               alt="leaderboard Image"
-              className="w-full"
             />
           </div>
         </div>

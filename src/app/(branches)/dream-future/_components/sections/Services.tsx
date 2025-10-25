@@ -52,9 +52,9 @@ const Services = () => {
               onClick={() => setSelectedCard(id)}
             >
               <span className="p-2 md:p-2.5 rounded-xl bg-primary">{icon}</span>
-              <h4 className="text-2xl md:text-3xl font-bold text-text">
+              <h2 className="text-2xl md:text-3xl font-bold text-text">
                 {head}
-              </h4>
+              </h2>
               <p className="text-sm md:text-lg font-medium leading-4 md:leading-6">
                 {desc}
               </p>
