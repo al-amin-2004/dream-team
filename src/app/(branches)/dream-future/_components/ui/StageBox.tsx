@@ -29,9 +29,7 @@ const Box3D: FC<StageBoxProps> = ({ position, name, image }) => {
 
   return (
     <div style={style}>
-      <div
-        className={`relative size-[var(--size)] -rotate-x-[15deg] transform-3d perspective-midrange`}
-      >
+      <div className="relative size-[var(--size)] -rotate-x-[15deg] transform-3d perspective-midrange">
         <div className="size-7/12 mx-auto bg-white/40 overflow-hidden rounded-lg -mb-3">
           <Image
             src={image ? image : "/logos/dream-future-logo-white.png"}
@@ -62,7 +60,7 @@ const Box3D: FC<StageBoxProps> = ({ position, name, image }) => {
                   ? "text-3xl"
                   : position === 2
                   ? "text-2xl"
-                  : position === 3 && "text-lg"
+                  : "text-lg"
               }`}
             >
               {name}

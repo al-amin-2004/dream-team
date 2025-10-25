@@ -29,11 +29,10 @@ const StageItem: FC<StageItemProps> = ({
 }) => {
   return (
     <div
-      className={cn(
-        "row-end-7 rounded-t-lg p-1 bg-gray-600/50",
-        { "bg-gray-900/90": position === 1 },
-        { "bg-gray-800/50": position === 2 }
-      )}
+      className={cn("row-end-7 rounded-t-lg p-1 bg-gray-600/50", {
+        "bg-gray-900/90": position === 1,
+        "bg-gray-800/50": position === 2,
+      })}
       style={{ gridRowStart: `${position}` }}
     >
       <div
@@ -43,18 +42,20 @@ const StageItem: FC<StageItemProps> = ({
       >
         <div className="size-8/12 relative">
           <KingIcon
-            className={cn(
-              "size-12 absolute bottom-full left-1/2 -translate-x-1/2 mb-1 hidden",
-              { block: position === 1 }
-            )}
+            className={`size-12 absolute bottom-full left-1/2 -translate-x-1/2 mb-1 ${
+              position === 1 ? "block" : "hidden"
+            }
+            `}
           />
 
           <div
             className={cn(
               "w-16 mx-auto rounded-full overflow-hidden border-2",
-              { "border-orange-400": position === 1 },
-              { "border-sky-500 scale-90": position === 2 },
-              { "border-green-500 scale-75": position === 3 }
+              {
+                "border-orange-400": position === 1,
+                "border-sky-500 scale-90": position === 2,
+                "border-green-500 scale-75": position === 3,
+              }
             )}
           >
             <Image
@@ -74,19 +75,20 @@ const StageItem: FC<StageItemProps> = ({
         <span
           className={cn(
             "flex gap-1 items-center font-medium bg-white/30 px-2 rounded-full text-green-400",
-            { "text-orange-400": position === 1 },
-            { "text-sky-400": position === 2 }
+            {
+              "text-orange-400": position === 1,
+              "text-sky-400": position === 2,
+            }
           )}
         >
           <DiamondIcon className="size-3.5" />
           {totalStone}
         </span>
         <h2
-          className={cn(
-            "font-medium italic text-4xl",
-            { "text-7xl": position === 1 },
-            { "text-5xl": position === 2 }
-          )}
+          className={cn("font-medium italic text-4xl", {
+            "text-7xl": position === 1,
+            "text-5xl": position === 2,
+          })}
         >
           {position}
         </h2>
