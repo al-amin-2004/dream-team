@@ -51,7 +51,7 @@ const StageItem: FC<StageItemProps> = ({
 
           <div
             className={cn(
-              "w-16 mx-auto rounded-full overflow-hidden border-2",
+              "size-16 mx-auto rounded-full overflow-hidden border-2",
               {
                 "border-orange-400": position === 1,
                 "border-sky-500 scale-90": position === 2,
@@ -65,9 +65,9 @@ const StageItem: FC<StageItemProps> = ({
                   ? `https://drive.google.com/uc?export=view&id=${image}`
                   : logo
               }
-              fill
               priority
               alt="leaderboard Image"
+              className="size-full"
             />
           </div>
         </div>

@@ -2,7 +2,8 @@ import { DiamondIcon } from "@/icons";
 import Image from "next/image";
 import Box3D from "../../_components/ui/StageBox";
 import { Stage, StageItem } from "../../_components/ui/Stage";
-import Logo from "@/../public/logos/dream-future-logo-white.png"
+import Logo from "@/../public/logos/dream-future-logo-white.png";
+import Pipeline from "../../_components/ui/Pipeline";
 
 const leaderboard = async () => {
   return (
@@ -34,7 +35,12 @@ const leaderboard = async () => {
           </div>
         </section>
 
+        <Pipeline className="my-10" />
+
         <table className="w-full">
+          <caption className="caption-bottom my-5">
+            Thank you all members 💖💖
+          </caption>
           <thead>
             <tr className="[&>th]:py-3 [&>th]:px-1.5 [&>th]:last:text-right  text-left border-b-2 text-primary">
               <th className="w-10 md:w-30">Rank</th>
