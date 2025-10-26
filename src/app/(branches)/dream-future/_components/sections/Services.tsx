@@ -44,7 +44,7 @@ const Services = () => {
           {cardData.map(({ id, icon, head, desc }) => (
             <div
               key={id}
-              className={`max-w-[25rem] p-5 md:p-10 rounded-2xl flex flex-col items-start gap-2 md:gap-4 border border-black dark:border-white cursor-pointer hover:rotate-2 hover:scale-105 transition-all duration-300 ${
+              className={`max-w-100 p-5 md:p-10 rounded-2xl flex flex-col items-start gap-2 md:gap-4 border border-black dark:border-white cursor-pointer hover:rotate-2 hover:scale-105 transition-all duration-300 ${
                 selectedCard === id
                   ? "bg-black/25 dark:bg-white/15"
                   : "bg-black/10 dark:bg-white/5"

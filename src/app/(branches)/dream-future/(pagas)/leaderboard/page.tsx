@@ -2,12 +2,13 @@ import { DiamondIcon } from "@/icons";
 import Image from "next/image";
 import Box3D from "../../_components/ui/StageBox";
 import { Stage, StageItem } from "../../_components/ui/Stage";
+import Logo from "@/../public/logos/dream-future-logo-white.png"
 
 const leaderboard = async () => {
   return (
     <>
       <div
-        className="absolute -z-50 h-[25rem] md:h-[50rem] w-full top-0 -mt-5 md:-mt-10"
+        className="absolute -z-50 h-100 md:h-200 w-full top-0 -mt-5 md:-mt-10"
         style={{
           background:
             "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(251, 191, 36, 0.18), transparent 75%)",
@@ -17,7 +18,7 @@ const leaderboard = async () => {
       <div className="container">
         <section>
           {/* Leaderboard Stage for Pc */}
-          <div className="hidden lg:flex justify-center items-center gap-[7rem] h-[calc(100vh-20rem)]">
+          <div className="hidden lg:flex justify-center items-center gap-28 h-[calc(100vh-20rem)]">
             <Box3D position={2} name={"AL AMIN"} />
             <Box3D position={1} name={"MD MONIRUL ISLAM"} />
             <Box3D position={3} name={"ABRARUL HASAN SAJIB"} />
@@ -54,10 +55,13 @@ const leaderboard = async () => {
                       src={
                         false
                           ? `https://drive.google.com/uc?export=view&id=${""}`
-                          : "/logos/dream-future-logo-white.png"
+                          : Logo
                       }
                       width={500}
                       height={500}
+                      priority={false}
+                      placeholder="blur"
+                      blurDataURL=""
                       alt="profile Image"
                       className="size-7 md:size-9 rounded-full overflow-hidden"
                     />

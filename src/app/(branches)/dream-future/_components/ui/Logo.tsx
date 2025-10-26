@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const Logo: FC = () => {
   return (
-    <Link href="/">
+    <Link href="/dream-future/">
       <div className="flex items-center gap-2 cursor-pointer">
         <Image
           src="/logos/dream-future-logo-white.png"

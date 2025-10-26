@@ -7,14 +7,14 @@ export default function Page() {
   return (
     <>
       <div
-        className="absolute w-full h-[60rem] -z-50 top-0"
+        className="absolute w-full h-240 -z-50 top-0"
         style={{
           backgroundImage: `radial-gradient(circle at 85% 30%, rgba(255, 191, 0, 0.08) 0, transparent 40%)`,
         }}
       />
       <Header />
       <Hero />
-      {/* <FinotiveFunding /> */}
+      <FinotiveFunding />
       <Services />
     </>
   );

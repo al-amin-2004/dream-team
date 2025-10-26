@@ -16,7 +16,7 @@ interface StageItemProps {
 }
 const Stage: FC<StageProps> = ({ className, children }) => {
   return (
-    <div className={cn("h-[11rem] grid grid-cols-3 grid-rows-6", className)}>
+    <div className={cn("h-44 grid grid-cols-3 grid-rows-6", className)}>
       {children}
     </div>
   );
