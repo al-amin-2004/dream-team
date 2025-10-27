@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "./(branches)/dream-future/_components/ui/Button";
+import { Button } from "./(divisions)/dream-future/_components/ui/Button";
 
 export default function Home() {
   const divitions = [
@@ -16,7 +16,9 @@ export default function Home() {
       <div className="flex gap-5">
         {divitions.map(({ label, link }, idx) => (
           <Link key={idx} href={link}>
-            <Button variant={"outline"} className="text-white">{label}</Button>
+            <Button variant={"outline"} className="text-white">
+              {label}
+            </Button>
           </Link>
         ))}
       </div>
