@@ -1,9 +1,9 @@
+import Logo from "@/../public/logos/dream-future-logo-white.png";
+import { Stage, StageItem } from "../../_components/ui/Stage";
+import Pipeline from "../../_components/ui/Pipeline";
+import Box3D from "../../_components/ui/StageBox";
 import { DiamondIcon } from "@/icons";
 import Image from "next/image";
-import Box3D from "../../_components/ui/StageBox";
-import { Stage, StageItem } from "../../_components/ui/Stage";
-import Logo from "@/../public/logos/dream-future-logo-white.png";
-import Pipeline from "../../_components/ui/Pipeline";
 
 const leaderboard = async () => {
   return (

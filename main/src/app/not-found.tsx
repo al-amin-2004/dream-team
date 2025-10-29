@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./(divisions)/dream-future/_components/ui/Button";
 
 export default function NotFound() {
   return (
@@ -17,9 +16,9 @@ export default function NotFound() {
             Your search has ventured beyond the known universe.
           </p>
           <Link href="/">
-            <Button variant={"outline"} className="mt-4 md:mt-7">
+            <button className="mt-4 md:mt-7 text-white px-3 py-1.5 rounded-full ring ring-primary cursor-pointer">
               Bact to home
-            </Button>
+            </button>
           </Link>
         </div>
         <div className="lg:w-1/2 md:flex justify-center">

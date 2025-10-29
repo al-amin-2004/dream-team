@@ -33,7 +33,7 @@ const Header: FC = () => {
             {Navlist.map((list) => (
               <li key={list.link} onClick={() => setNavOpen(false)}>
                 <Link
-                  href={`/dream-future/${list.link}`}
+                  href={`/${list.link}`}
                   className="block px-2 py-1.5 text-[15px] text-nowrap text-white hover:text-primary hover:bg-primary/10 rounded-sm transition-all duration-300 cursor-pointer"
                 >
                   {list.label}
