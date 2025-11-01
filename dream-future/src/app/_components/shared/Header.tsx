@@ -42,7 +42,7 @@ const Header: FC = () => {
             ))}
           </ul>
 
-          <Link href="/dream-future/profile">
+          <Link href="/login">
             <Button>
               My Profile <MoveRight className="hidden lg:block ms-1.5" />
             </Button>
