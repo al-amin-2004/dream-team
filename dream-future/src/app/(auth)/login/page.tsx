@@ -2,6 +2,8 @@
 
 import React, { FormEvent, useState } from "react";
 import Link from "next/link";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import Input from "../_components/ui/Input";
 import { Label } from "../_components/ui/Label";
 import { Button } from "@/app/_components/ui/Button";
@@ -20,17 +22,62 @@ import {
   UserIcon,
 } from "lucide-react";
 
+interface SignUpData {
+  email: string;
+  password: string;
+}
+
+interface SignUpErrors {
+  email?: string;
+  password?: string;
+}
+
 const SignUp: React.FC = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
+  const [errors, setErrors] = useState<SignUpErrors>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [login, setLogin] = useState<SignUpData>({ email: "", password: "" });
+
+  const validate = () => {
+    const newErrors: SignUpErrors = {};
+    if (!login.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/\S+@\S+\.\S+/.test(login.email)) {
+      newErrors.email = "Email is invalid";
+    }
+    if (!login.password.trim()) newErrors.password = "Password is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-  };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
+    if (!validate()) return;
+
+    setIsLoading(true);
+
+    try {
+      const res = await fetch(`/api/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(login),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Something Worng!");
+      } else {
+        toast.success(data.message);
+        router.push("/");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -60,12 +107,16 @@ const SignUp: React.FC = () => {
             <Input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              value={login.email}
+              onChange={(e) => setLogin({ ...login, email: e.target.value })}
               placeholder="name@example.com"
               className="pl-8 md:pl-9"
             />
           </div>
+          {errors.email && (
+            <p className="text-red-400 text-xs -mt-1.5">{errors.email}</p>
+          )}
         </div>
 
         {/* Password Input */}
@@ -79,24 +130,28 @@ const SignUp: React.FC = () => {
             <Input
               type={showPassword ? "text" : "password"}
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              value={login.password}
+              onChange={(e) => setLogin({ ...login, password: e.target.value })}
               placeholder="Inter your password"
               className="pl-8 md:pl-9 pr-10"
             />
             <button
               type="button"
-              onClick={togglePasswordVisibility}
+              onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 text-gray-500 hover:text-gray-300 transition-colors"
             >
               {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}
             </button>
           </div>
+          {errors.password && (
+            <p className="text-red-400 text-xs -mt-1.5">{errors.password}</p>
+          )}
         </div>
 
         {/* Submit Button */}
         <Button type="submit" className="w-full rounded md:rounded-md">
-          Login
+          {isLoading ? "Checking..." : "Log in"}
         </Button>
       </form>
 

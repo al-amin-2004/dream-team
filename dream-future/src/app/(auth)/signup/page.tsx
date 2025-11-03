@@ -65,6 +65,7 @@ const SignUp: React.FC = () => {
       if (!res.ok) {
         toast.info(data.message || "Something Worng!");
       } else {
+        toast.success(data.message);
         router.push("/");
       }
     } catch (error) {
@@ -72,10 +73,6 @@ const SignUp: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
   };
 
   return (
@@ -105,6 +102,7 @@ const SignUp: React.FC = () => {
               placeholder="John"
               value={signup.firstName}
               onChange={inputsHandle}
+              required
             />
           </div>
           <div className="w-full space-y-2">
@@ -157,10 +155,12 @@ const SignUp: React.FC = () => {
               onChange={inputsHandle}
               placeholder="Create a password"
               className="pl-8 md:pl-9 pr-10"
+              required
+              minLength={6}
             />
             <button
               type="button"
-              onClick={togglePasswordVisibility}
+              onClick={() => setShowPassword(!showPassword)}
               className="absolute inset-y-0 right-0 pr-3 text-gray-500 md:hover:text-gray-300 transition-colors"
             >
               {showPassword ? <EyeOffIcon size={18} /> : <EyeIcon size={18} />}

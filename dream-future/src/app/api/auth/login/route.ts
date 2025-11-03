@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import User from "@/models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
-import { generateUsername } from "@/lib/generateUsername";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -11,36 +10,33 @@ export async function POST(req: Request) {
   try {
     await connectDB();
 
-    const formData = await req.json();
+    const userInfo = await req.json();
 
-    //  check existsting email
-    const existsEmail = await User.findOne({ email: formData.email });
-    if (existsEmail) {
-      return new Response(JSON.stringify({ message: "User already exists" }), {
+    // check existsting email
+    const existsEmail = await User.findOne({ email: userInfo.email });
+    if (!existsEmail) {
+      return new Response(JSON.stringify({ message: "Something is wrong!" }), {
         status: 400,
       });
     }
 
-    // Generate a unique username
-    const username = generateUsername(formData.firstName);
+    //  check hashed Password with bcrypt
+    const validPassword = await bcrypt.compare(
+      userInfo.password,
+      existsEmail.password
+    );
 
-    //  Password has hashed with bcrypt
-    const hashedPassword = await bcrypt.hash(formData.password, 10);
-
-    const newUser = new User({
-      ...formData,
-      password: hashedPassword,
-      username: username,
-    });
-    await newUser.save();
+    if (!validPassword) {
+      return new Response(JSON.stringify({ message: "Something is wrong!" }), {
+        status: 401,
+      });
+    }
 
     // Cookie set with JWT
     if (!jwtSecret) throw new Error("JWT_SECRET is not defined!");
-
-    const token = jwt.sign({ email: newUser.email }, jwtSecret);
+    const token = jwt.sign({ email: existsEmail.email }, jwtSecret);
 
     const cookieStore = await cookies();
-
     cookieStore.set("auth_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
@@ -50,12 +46,9 @@ export async function POST(req: Request) {
       priority: "high",
     });
 
-    return new Response(
-      JSON.stringify({ message: "User created successful" }),
-      {
-        status: 201,
-      }
-    );
+    return new Response(JSON.stringify({ message: "User login successful" }), {
+      status: 201,
+    });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ message: "Server error" }), {
