@@ -11,6 +11,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import HistoryCard from "../_components/HistoryCard";
+import {
+  ArrowDownUp,
+  CalendarFold,
+  Funnel,
+  LayoutGrid,
+  List,
+} from "lucide-react";
 
 const History = () => {
   const [timeRange, setTimeRange] = React.useState("90d");
@@ -56,17 +63,36 @@ const History = () => {
 
       <div className="flex gap-8">
         <div className="flex-6 border-2 p-6 rounded-xl">
-
-          <div className="py-3 flex gap-2 items-center">
-            <div className="w-1.5 rounded-full bg-primary h-6 mb-1" />
-            <h1 className="text-2xl font-medium mb-2.5">
+          <div className="py-3 flex justify-between items-center">
+            <h1 className="text-2xl font-medium mb-2.5 ps-3 relative before:absolute before:content-[''] before:w-1 before:h-10/12 before:top-4/7 before:left-0 before:bg-primary before:rounded-full before:-translate-y-1/2">
               Your Diposite Histories
             </h1>
+
+            <div className="flex items-center gap-2.5">
+              <LayoutGrid size={34} className="cursor-pointer p-1.5 border rounded-md bg-gray-400/10" />
+              <List size={34} className="cursor-pointer p-1.5 border rounded-md me-2.5" />
+              <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
+                <ArrowDownUp size={18} />
+                <span className="inline">Sort</span>
+              </div>
+              <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
+                <Funnel size={18}/>
+                <span className="inline">Filter</span>
+              </div>
+            </div>
           </div>
 
           <div className="grid grid-cols-[repeat(3,minmax(300px,1fr))] justify-items-center gap-7">
             {Array.from({ length: 50 }).map((_, idx) => (
-              <HistoryCard key={idx}>s</HistoryCard>
+              <HistoryCard key={idx}>
+                <div className="flex items-center justify-between">
+                  <h2 className="text-2xl font-medium leading-6">January</h2>
+                  <div className="flex items-center gap-1.5">
+                    <CalendarFold size={16} />
+                    <p className="text-xs">10/01/2025</p>
+                  </div>
+                </div>
+              </HistoryCard>
             ))}
           </div>
         </div>
