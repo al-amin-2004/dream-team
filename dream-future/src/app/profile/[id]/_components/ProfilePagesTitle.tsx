@@ -11,11 +11,9 @@ const ProfilePagesTitle: FC<ProfilePagesTitleProps> = ({
 }) => {
   return (
     <div className="py-3.5 border-b-2 border-dashed">
-      <div className="flex gap-2 items-center">
-        <div className="w-2 rounded-full bg-primary h-10 mb-1" />
-        <h1 className="text-5xl font-semibold mb-2.5">{title}</h1>
-      </div>
-
+      <h1 className="text-5xl font-semibold mb-2.5 ps-3.5 relative before:absolute before:content-[''] before:w-2 before:h-10/12 before:top-4/7 before:left-0 before:bg-primary before:rounded-full before:-translate-y-1/2">
+        {title}
+      </h1>
       <p className="text-sm text-muted-foreground">{description}</p>
     </div>
   );
