@@ -42,7 +42,7 @@ const Header: FC = () => {
             ))}
           </ul>
 
-          <Link href="/profile">
+          <Link href="/profile/id">
             <Button>
               My Profile <MoveRight className="hidden lg:block ms-1.5" />
             </Button>

@@ -11,7 +11,7 @@ export const Logo: FC = () => {
           width={500}
           height={500}
           alt="Dream-Future Logo"
-          className="w-12 md:w-14"
+          className="size-12 md:size-14"
         />
 
         <h1 className="hidden md:block text-2xl font-bold">
