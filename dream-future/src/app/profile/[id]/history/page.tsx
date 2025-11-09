@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import { useState } from "react";
 import ProfilePagesTitle from "../_components/ProfilePagesTitle";
 import { ChartAreaInteractive } from "../_components/Graph";
+import { ArrowDownUp, Funnel, LayoutGrid, List } from "lucide-react";
+import { HistoryCardGrid, HistoryCardList } from "../_components/HistoryCard";
 import {
   Select,
   SelectContent,
@@ -10,17 +12,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import HistoryCard from "../_components/HistoryCard";
-import {
-  ArrowDownUp,
-  CalendarFold,
-  Funnel,
-  LayoutGrid,
-  List,
-} from "lucide-react";
 
 const History = () => {
-  const [timeRange, setTimeRange] = React.useState("90d");
+  const [isGrid, setIsGrid] = useState<boolean>(true);
+  const [timeRange, setTimeRange] = useState("90d");
 
   return (
     <div className="space-y-12">
@@ -62,38 +57,78 @@ const History = () => {
       </div>
 
       <div className="flex gap-8">
-        <div className="flex-6 border-2 p-6 rounded-xl">
-          <div className="py-3 flex justify-between items-center">
+        <div className="flex-6 border-2 py-6 pl-6 rounded-xl">
+          <div className="py-3 flex justify-between items-center pe-6">
             <h1 className="text-2xl font-medium mb-2.5 ps-3 relative before:absolute before:content-[''] before:w-1 before:h-10/12 before:top-4/7 before:left-0 before:bg-primary before:rounded-full before:-translate-y-1/2">
-              Your Diposite Histories
+              Your Transition Histories
             </h1>
 
             <div className="flex items-center gap-2.5">
-              <LayoutGrid size={34} className="cursor-pointer p-1.5 border rounded-md bg-gray-400/10" />
-              <List size={34} className="cursor-pointer p-1.5 border rounded-md me-2.5" />
+              <LayoutGrid
+                size={34}
+                className={`cursor-pointer p-1.5 border rounded-md ${
+                  isGrid && "bg-gray-400/10"
+                }`}
+                onClick={() => setIsGrid(true)}
+              />
+              <List
+                size={34}
+                className={`cursor-pointer p-1.5 border rounded-md me-2.5 ${
+                  !isGrid && "bg-gray-400/10"
+                }`}
+                onClick={() => setIsGrid(false)}
+              />
               <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
                 <ArrowDownUp size={18} />
                 <span className="inline">Sort</span>
               </div>
               <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
-                <Funnel size={18}/>
+                <Funnel size={18} />
                 <span className="inline">Filter</span>
               </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-[repeat(3,minmax(300px,1fr))] justify-items-center gap-7">
-            {Array.from({ length: 50 }).map((_, idx) => (
-              <HistoryCard key={idx}>
-                <div className="flex items-center justify-between">
-                  <h2 className="text-2xl font-medium leading-6">January</h2>
-                  <div className="flex items-center gap-1.5">
-                    <CalendarFold size={16} />
-                    <p className="text-xs">10/01/2025</p>
-                  </div>
-                </div>
-              </HistoryCard>
-            ))}
+          <div
+            className={`max-h-185 pe-6 overflow-y-scroll grid justify-items-center ${
+              isGrid
+                ? "grid-cols-[repeat(3,minmax(300px,1fr))] gap-6"
+                : "grid-cols-1 gap-2.5"
+            }`}
+          >
+            <div
+              className={`w-full rounded-md p-4 min-w-[350px] bg-[#1e1f21] grid grid-cols-5 place-items-center text-lg font-medium border border-emerald-600 sticky top-0 ${
+                isGrid && "hidden"
+              }`}
+            >
+              <h2>Transaction Type</h2>
+              <p>Date</p>
+              <p>Method</p>
+              <p>Amount</p>
+              <p>Transition ID / Refer by</p>
+            </div>
+
+            {Array.from({ length: 50 }).map((_, idx) => {
+              return isGrid ? (
+                <HistoryCardGrid
+                  key={idx}
+                  transactionType="Diposite"
+                  date="12/01/2025"
+                  method="Bkash"
+                  amount={200}
+                  transactionId="bq83b28d2d4"
+                />
+              ) : (
+                <HistoryCardList
+                  key={idx}
+                  transactionType="Withdraw"
+                  date="12/01/2025"
+                  method="Cash"
+                  amount={200}
+                  referBy="Al amin"
+                />
+              );
+            })}
           </div>
         </div>
         <div className="flex-2 border-2 p-6 rounded-xl"></div>
