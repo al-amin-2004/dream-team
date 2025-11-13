@@ -22,6 +22,7 @@ import {
   UserIcon,
 } from "lucide-react";
 
+
 interface SignUpData {
   email: string;
   password: string;
@@ -38,6 +39,7 @@ const SignUp: React.FC = () => {
   const [errors, setErrors] = useState<SignUpErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [login, setLogin] = useState<SignUpData>({ email: "", password: "" });
+
 
   const validate = () => {
     const newErrors: SignUpErrors = {};

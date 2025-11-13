@@ -6,5 +6,5 @@ export function generateUsername(name: string) {
     if (!name) return `${randomNumber}`;
 
   const cleanName = name.toLowerCase().replace(/\s+/g, "-");
-  return `${cleanName}${randomNumber}`;
+  return `${cleanName}@${randomNumber}`;
 }
