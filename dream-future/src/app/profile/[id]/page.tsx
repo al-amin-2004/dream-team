@@ -85,7 +85,7 @@ const Profile = () => {
             <ul className="grid grid-cols-2 pt-3">
               <UserDetailsList label="Email" value={email} />
               <UserDetailsList label="Phone" value={phone} />
-              <UserDetailsList label="Birthday" value={birthday} />
+              <UserDetailsList label="Date of Birth" value={birthday} />
               <UserDetailsList label="Gender" value={gender} />
               <UserDetailsList label="Blood" value={blood} />
               <UserDetailsList label="Nationality" value={nationality} />

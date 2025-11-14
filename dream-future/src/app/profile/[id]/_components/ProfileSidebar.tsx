@@ -4,13 +4,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useSidebar } from "@/providers/SidebarContext";
-import { DoorOpen, History, Info, Settings, User } from "lucide-react";
+import { DoorOpen, History, Info, Settings, User, UserRoundPen } from "lucide-react";
 
 const sidebarItems = [
   { label: "Profile", icon: <User />, link: "/profile/id" },
   { label: "History", icon: <History />, link: "/profile/id/history" },
-  { label: "Settings", icon: <Settings />, link: "/profile/id/settings" },
   { label: "Info", icon: <Info />, link: "/profile/id/info" },
+  { label: "Update Profle", icon: <UserRoundPen />, link: "/profile/id/update" },
+  { label: "Settings", icon: <Settings />, link: "/profile/id/settings" },
 ];
 
 const Sidebar = () => {

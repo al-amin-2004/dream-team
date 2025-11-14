@@ -4,8 +4,8 @@ import React, { ChangeEvent, FormEvent, useState } from "react";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import Input from "../_components/ui/Input";
-import { Label } from "../_components/ui/Label";
+import Input from "../../_components/ui/Input";
+import { Label } from "../../_components/ui/Label";
 import { Button } from "@/app/_components/ui/Button";
 import {
   RegistrationCard,
@@ -13,7 +13,7 @@ import {
   RegistrationCardFooter,
   RegistrationCardHeader,
   RegistrationCardTitle,
-} from "../_components/ui/RegistrarCard";
+} from "../../_components/ui/RegistrarCard";
 import {
   CheckIcon,
   EyeIcon,
