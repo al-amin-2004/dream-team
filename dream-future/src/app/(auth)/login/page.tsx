@@ -21,7 +21,7 @@ import {
   MailIcon,
   UserIcon,
 } from "lucide-react";
-
+import { useUser } from "@/providers/UserContext";
 
 interface SignUpData {
   email: string;
@@ -39,7 +39,7 @@ const SignUp: React.FC = () => {
   const [errors, setErrors] = useState<SignUpErrors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [login, setLogin] = useState<SignUpData>({ email: "", password: "" });
-
+  const { refreshUser } = useUser();
 
   const validate = () => {
     const newErrors: SignUpErrors = {};
@@ -69,12 +69,11 @@ const SignUp: React.FC = () => {
 
       const data = await res.json();
 
-      if (!res.ok) {
-        toast.error(data.message || "Something Worng!");
-      } else {
-        toast.success(data.message);
-        router.push("/");
-      }
+      if (!res.ok) return toast.error(data.message || "Something Worng!");
+
+      toast.success(data.message);
+      refreshUser();
+      router.push("/");
     } catch (error) {
       console.log(error);
     } finally {
