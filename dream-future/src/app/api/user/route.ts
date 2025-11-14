@@ -19,9 +19,6 @@ export async function GET() {
         { status: 401 }
       );
     }
-    if (token) {
-      console.log("asdasd");
-    }
 
     const decode = jwt.verify(token, JWT_SECRET) as JwtPayload & {
       email: string;

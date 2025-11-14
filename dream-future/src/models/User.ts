@@ -26,7 +26,7 @@ const userSchema = new Schema<IUser>(
     password: { type: String },
     gender: { type: String, enum: ["Male", "Female", "Other"] },
     avatar: { type: String, default: "" },
-    birthday: Date,
+    birthday: String,
     address: String,
     stone: { type: Number, default: 0 },
     role: {

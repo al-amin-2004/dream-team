@@ -1,20 +1,34 @@
 "use client";
 
-import { ChangeEvent, FormEvent, useState } from "react";
-import ProfilePageTitle from "../../_components/ProfilePagesTitle";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import ProfilePageTitle from "../_components/ProfilePagesTitle";
 import Input from "@/app/_components/ui/Input";
 import { Button } from "@/app/_components/ui/Button";
 import Image from "next/image";
 import { Camera } from "lucide-react";
+import { toast } from "sonner";
+import { useUser } from "@/providers/UserContext";
+
+interface formDataTypes {
+  firstName: string;
+  lastName: string;
+  phone: string;
+  blood: string;
+  nationality: string;
+  gender: string;
+  address: string;
+  dateOfBirth: string;
+  profilePic: File | string | null;
+}
 
 const Settings = () => {
-  // await new Promise((r) => setTimeout(r, 3000));
-  // throw new Error("lakjsdkaj f asf a")
-  const [formData, setFormData] = useState({
+  const { user, refreshUser } = useUser();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [formData, setFormData] = useState<formDataTypes>({
     firstName: "",
     lastName: "",
     phone: "",
-    bloodGroup: "",
+    blood: "",
     nationality: "",
     gender: "",
     address: "",
@@ -22,10 +36,27 @@ const Settings = () => {
     profilePic: null as File | null,
   });
 
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || "",
+        lastName: user.lastName || "",
+        phone: user.phone || "",
+        blood: user.blood || "",
+        nationality: user.nationality || "",
+        gender: user.gender || "",
+        address: user.address || "",
+        dateOfBirth: user.birthday || "",
+        profilePic: user.avatar || null,
+      });
+    }
+  }, [user]);
+
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value, files } = e.target as HTMLInputElement;
+
     if (files) {
       setFormData({ ...formData, [name]: files[0] });
     } else {
@@ -33,10 +64,57 @@ const Settings = () => {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
+    setLoading(true);
+
+    let uploadedImageUrl =
+      typeof formData.profilePic === "string" ? formData.profilePic : "";
+
+    try {
+      if (formData.profilePic && formData.profilePic instanceof File) {
+        const imgForm = new FormData();
+        imgForm.append("file", formData.profilePic);
+
+        const res = await fetch("/api/cloudinaryUpload", {
+          method: "POST",
+          body: imgForm,
+        });
+
+        const uploadData = await res.json();
+
+        if (uploadData.success) {
+          uploadedImageUrl = uploadData.result.secure_url;
+        }
+      }
+
+      const res = await fetch("/api/user/update", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          birthday: formData.dateOfBirth,
+          avatar: uploadedImageUrl,
+        }),
+      });
+
+      if (!res.ok) throw new Error("Failed to update User");
+
+      refreshUser();
+      toast.success("Profile updated successfully!");
+    } catch (error) {
+      console.error("Update Error:", error);
+      toast.error("Failed to update User!");
+    } finally {
+      setLoading(false);
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="space-y-12">
       <ProfilePageTitle
@@ -51,16 +129,26 @@ const Settings = () => {
             <div className="size-42 mb-2 rounded-full overflow-hidden border-2 border-gray-300">
               {formData.profilePic ? (
                 <Image
-                  src={URL.createObjectURL(formData.profilePic)}
+                  src={
+                    typeof formData.profilePic === "string"
+                      ? formData.profilePic
+                      : URL.createObjectURL(formData.profilePic)
+                  }
+                  width={500}
+                  height={500}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              ) : user?.avatar ? (
+                <Image
+                  src={user?.avatar}
                   width={500}
                   height={500}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="size-full flex items-center justify-center text-xl font-semibold">
-                  No Image
-                </div>
+                <div>No Image</div>
               )}
             </div>
 
@@ -116,8 +204,8 @@ const Settings = () => {
             <div>
               <label className="block text-gray-200 mb-1">Blood Group</label>
               <select
-                name="bloodGroup"
-                value={formData.bloodGroup}
+                name="blood"
+                value={formData.blood}
                 onChange={handleChange}
                 className="w-full p-2 border rounded-md bg-background"
               >

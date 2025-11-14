@@ -7,11 +7,11 @@ import { useSidebar } from "@/providers/SidebarContext";
 import { DoorOpen, History, Info, Settings, User, UserRoundPen } from "lucide-react";
 
 const sidebarItems = [
-  { label: "Profile", icon: <User />, link: "/profile/id" },
-  { label: "History", icon: <History />, link: "/profile/id/history" },
-  { label: "Info", icon: <Info />, link: "/profile/id/info" },
-  { label: "Update Profle", icon: <UserRoundPen />, link: "/profile/id/update" },
-  { label: "Settings", icon: <Settings />, link: "/profile/id/settings" },
+  { label: "Profile", icon: <User />, link: "/profile" },
+  { label: "History", icon: <History />, link: "/profile/history" },
+  { label: "Info", icon: <Info />, link: "/profile/info" },
+  { label: "Update Profle", icon: <UserRoundPen />, link: "/profile/update" },
+  { label: "Settings", icon: <Settings />, link: "/profile/settings" },
 ];
 
 const Sidebar = () => {

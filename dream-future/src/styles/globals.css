@@ -126,24 +126,20 @@
   }
 }
 
-/* width */
+
 ::-webkit-scrollbar {
   width: 4px;
 }
-
-/* Track */
-/* ::-webkit-scrollbar-track {
-  background:#aaa;
-} */
-
-/* Handle */
 ::-webkit-scrollbar-thumb {
   border-radius: 20px;
   background: linear-gradient(transparent, var(--primary));
 }
-
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(transparent, #10c200);
   cursor: grab;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
 }
