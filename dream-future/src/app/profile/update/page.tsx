@@ -1,10 +1,11 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useState } from "react";
-import ProfilePageTitle from "../_components/ProfilePagesTitle";
+import ProfilePageTitle from "../../_components/ProfilePagesTitle";
 import Input from "@/app/_components/ui/Input";
 import { Button } from "@/app/_components/ui/Button";
 import Image from "next/image";
+import { Camera } from "lucide-react";
 
 const Settings = () => {
   // await new Promise((r) => setTimeout(r, 3000));
@@ -35,7 +36,6 @@ const Settings = () => {
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     console.log("Form Data:", formData);
-    // এখানে তোমার API call বা update logic যাবে
   };
   return (
     <div className="space-y-12">
@@ -44,38 +44,46 @@ const Settings = () => {
         description="Showing your all histories with a clear view."
       />
 
-      <div className="max-w-10/12 mx-auto p-6 rounded-lg shadow-md">
+      <div className="max-w-9/12 mx-auto">
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Profile Picture */}
-          <div className="flex flex-col items-center">
+          <div className="relative w-fit">
             <div className="size-42 mb-2 rounded-full overflow-hidden border-2 border-gray-300">
               {formData.profilePic ? (
                 <Image
                   src={URL.createObjectURL(formData.profilePic)}
+                  width={500}
+                  height={500}
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-600 text-gray-500">
+                <div className="size-full flex items-center justify-center text-xl font-semibold">
                   No Image
                 </div>
               )}
             </div>
+
+            <label
+              htmlFor="avatar-upload"
+              className="absolute bottom-2 right-2 p-1.5 bg-[#797777] ring-4 ring-background text-primary rounded-full cursor-pointer"
+            >
+              <Camera className="size-5" />
+            </label>
             <input
               type="file"
+              id="avatar-upload"
               name="profilePic"
               accept="image/*"
               onChange={handleChange}
-              className="text-sm text-gray-700 dark:text-gray-200"
+              className="hidden"
             />
           </div>
 
           {/* First & Last Name */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 dark:text-gray-200 mb-1">
-                First Name
-              </label>
+              <label className="block text-gray-200 mb-1">First Name</label>
               <Input
                 type="text"
                 name="firstName"
@@ -84,9 +92,7 @@ const Settings = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 dark:text-gray-200 mb-1">
-                Last Name
-              </label>
+              <label className="block text-gray-200 mb-1">Last Name</label>
               <Input
                 type="text"
                 name="lastName"
@@ -99,9 +105,7 @@ const Settings = () => {
           {/* Phone & Blood Group */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-gray-700 dark:text-gray-200 mb-1">
-                Phone Number
-              </label>
+              <label className="block text-gray-200 mb-1">Phone Number</label>
               <Input
                 type="text"
                 name="phone"
@@ -110,9 +114,7 @@ const Settings = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 dark:text-gray-200 mb-1">
-                Blood Group
-              </label>
+              <label className="block text-gray-200 mb-1">Blood Group</label>
               <select
                 name="bloodGroup"
                 value={formData.bloodGroup}
@@ -144,9 +146,7 @@ const Settings = () => {
               />
             </div>
             <div>
-              <label className="block text-gray-700 dark:text-gray-200 mb-1">
-                Gender
-              </label>
+              <label className="block text-gray-200 mb-1">Gender</label>
               <select
                 name="gender"
                 value={formData.gender}
@@ -163,9 +163,7 @@ const Settings = () => {
 
           {/* Address */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 mb-1">
-              Address
-            </label>
+            <label className="block text-gray-200 mb-1">Address</label>
             <textarea
               name="address"
               value={formData.address}
@@ -177,9 +175,7 @@ const Settings = () => {
 
           {/* Date of Birth */}
           <div>
-            <label className="block text-gray-700 dark:text-gray-200 mb-1">
-              Date of Birth
-            </label>
+            <label className="block text-gray-200 mb-1">Date of Birth</label>
             <Input
               type="date"
               name="dateOfBirth"

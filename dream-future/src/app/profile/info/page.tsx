@@ -1,4 +1,4 @@
-import ProfilePageTitle from "../_components/ProfilePagesTitle";
+import ProfilePageTitle from "../../_components/ProfilePagesTitle";
 
 const Info = () => {
   return (
