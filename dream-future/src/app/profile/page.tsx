@@ -48,6 +48,7 @@ const Profile = () => {
             src={avatar ? avatar : "/photo.jpg"}
             width={500}
             height={500}
+            priority
             alt="User Profile Page"
             className="size-99 border-18 rounded-full"
           />
@@ -58,7 +59,10 @@ const Profile = () => {
           <div className="border-2 p-6 rounded-xl">
             <div className="flex justify-between py-3 border-b">
               <h1 className="text-xl font-semibold">Balance quiry</h1>
-              <span className="size-2.5 bg-green-500 rounded-full relative before:-inset-1.5 before:absolute before:bg-green-500/20 before:-z-10 before:rounded-full" />
+              <div className="size-4 text-green-500 relative">
+                <span className="absolute inset-0 bg-current rounded-full opacity-50 animate-ping"></span>
+                <span className="absolute inset-0.5 bg-current rounded-full"></span>
+              </div>
             </div>
 
             <div className="w-full flex gap-4 mt-6">

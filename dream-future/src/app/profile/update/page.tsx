@@ -1,11 +1,12 @@
 "use client";
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import Image from "next/image";
 import ProfilePageTitle from "../_components/ProfilePagesTitle";
 import Input from "@/app/_components/ui/Input";
 import { Button } from "@/app/_components/ui/Button";
-import Image from "next/image";
 import { Camera } from "lucide-react";
+import { Loading1 } from "@/icons";
 import { toast } from "sonner";
 import { useUser } from "@/providers/UserContext";
 
@@ -25,6 +26,8 @@ interface formDataTypes {
 const Settings = () => {
   const { user, refreshUser } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
+  const [initialData, setInitialData] = useState<formDataTypes | null>(null);
+  const [isDisabled, setIsDisabled] = useState<boolean>(true);
   const [formData, setFormData] = useState<formDataTypes>({
     firstName: "",
     lastName: "",
@@ -40,7 +43,7 @@ const Settings = () => {
 
   useEffect(() => {
     if (user) {
-      setFormData({
+      const data = {
         firstName: user.firstName || "",
         lastName: user.lastName || "",
         phone: user.phone || "",
@@ -51,9 +54,29 @@ const Settings = () => {
         birthday: user.birthday || "",
         profilePic: user.avatar || null,
         avatarId: user.avatarId || "",
-      });
+      };
+
+      setFormData(data);
+      setInitialData(data);
     }
   }, [user]);
+
+  useEffect(() => {
+    if (!initialData) return;
+
+    const isChanged =
+      formData.firstName !== initialData.firstName ||
+      formData.lastName !== initialData.lastName ||
+      formData.phone !== initialData.phone ||
+      formData.blood !== initialData.blood ||
+      formData.nationality !== initialData.nationality ||
+      formData.gender !== initialData.gender ||
+      formData.address !== initialData.address ||
+      formData.birthday !== initialData.birthday ||
+      formData.profilePic !== initialData.profilePic;
+
+    setIsDisabled(!isChanged);
+  }, [formData, initialData]);
 
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -123,7 +146,11 @@ const Settings = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="h-[calc(100vh-85px)] flex justify-center items-center">
+        <Loading1 />
+      </div>
+    );
   }
   return (
     <div className="space-y-12">
@@ -146,6 +173,7 @@ const Settings = () => {
                   }
                   width={500}
                   height={500}
+                  priority
                   alt="Profile"
                   className="w-full h-full object-cover"
                 />
@@ -283,7 +311,11 @@ const Settings = () => {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full rounded hover:translate-0">
+          <Button
+            disabled={isDisabled}
+            type="submit"
+            className="w-full rounded hover:translate-0"
+          >
             Update Profile
           </Button>
         </form>
