@@ -44,14 +44,22 @@ const Profile = () => {
         <div className="flex-2 border-2 p-6 rounded-xl flex flex-col items-center">
           <h1 className="text-4xl font-semibold">{`${firstName} ${lastName}`}</h1>
           <p className="text-primary mb-5">{username}</p>
-          <Image
-            src={avatar ? avatar : "/photo.jpg"}
-            width={500}
-            height={500}
-            priority
-            alt="User Profile Page"
-            className="size-99 border-18 rounded-full"
-          />
+          <div className="size-99 border-18 rounded-full overflow-hidden flex justify-center items-center">
+            {avatar ? (
+              <Image
+                src={avatar}
+                width={500}
+                height={500}
+                priority
+                alt="User Profile Page"
+                className=""
+              />
+            ) : (
+              <span className="text-[10rem]">
+                {firstName.slice(0, 1) + lastName?.slice(0, 1)}
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Top right side */}
