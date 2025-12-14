@@ -52,7 +52,6 @@ const Profile = () => {
                 height={500}
                 priority
                 alt="User Profile Page"
-                className=""
               />
             ) : (
               <span className="text-[10rem]">
