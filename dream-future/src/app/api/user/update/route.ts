@@ -36,11 +36,25 @@ export async function PATCH(req: Request) {
 
     // 3. Read form raw body (JSON)
     const body = await req.json();
+    
 
     // 4. Update user
     const updatedUser = await User.findOneAndUpdate(
       { email: decoded.email },
-      { ...body },
+      {
+        $set: {
+          firstName: body.firstName,
+          lastName: body.lastName,
+          phone: body.phone,
+          gender: body.gender,
+          blood: body.blood,
+          nationality: body.nationality,
+          address: body.address,
+          birthday: body.birthday,
+          avatar: body.avatar,
+          avatarId: body.avatarId,
+        },
+      },
       { new: true }
     ).select("-password");
 

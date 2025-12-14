@@ -12,6 +12,7 @@ export async function POST(req: Request) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
+    const oldPublicId = formData.get("oldPublicId") as string | null;
 
     if (!file)
       return NextResponse.json(
@@ -19,13 +20,18 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
+    if (oldPublicId) {
+      await cloudinary.uploader.destroy(oldPublicId);
+    }
+
     const buffer = Buffer.from(await file.arrayBuffer());
 
     const result = await new Promise((resolve, reject) => {
       cloudinary.uploader
         .upload_stream({ folder: "dream-future" }, (err, res) => {
           if (err) reject(err);
-          else resolve(res);
+          else
+            resolve({ secure_url: res?.secure_url, public_id: res?.public_id });
         })
         .end(buffer);
     });

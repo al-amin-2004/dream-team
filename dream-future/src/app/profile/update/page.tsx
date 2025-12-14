@@ -17,8 +17,9 @@ interface formDataTypes {
   nationality: string;
   gender: string;
   address: string;
-  dateOfBirth: string;
+  birthday: string;
   profilePic: File | string | null;
+  avatarId?: string;
 }
 
 const Settings = () => {
@@ -32,8 +33,9 @@ const Settings = () => {
     nationality: "",
     gender: "",
     address: "",
-    dateOfBirth: "",
+    birthday: "",
     profilePic: null as File | null,
+    avatarId: "",
   });
 
   useEffect(() => {
@@ -46,8 +48,9 @@ const Settings = () => {
         nationality: user.nationality || "",
         gender: user.gender || "",
         address: user.address || "",
-        dateOfBirth: user.birthday || "",
+        birthday: user.birthday || "",
         profilePic: user.avatar || null,
+        avatarId: user.avatarId || "",
       });
     }
   }, [user]);
@@ -71,10 +74,16 @@ const Settings = () => {
     let uploadedImageUrl =
       typeof formData.profilePic === "string" ? formData.profilePic : "";
 
+    let uploadedPublicId = formData.avatarId || "";
+
     try {
       if (formData.profilePic && formData.profilePic instanceof File) {
         const imgForm = new FormData();
         imgForm.append("file", formData.profilePic);
+
+        if (formData.avatarId) {
+          imgForm.append("oldPublicId", formData.avatarId);
+        }
 
         const res = await fetch("/api/cloudinaryUpload", {
           method: "POST",
@@ -85,6 +94,7 @@ const Settings = () => {
 
         if (uploadData.success) {
           uploadedImageUrl = uploadData.result.secure_url;
+          uploadedPublicId = uploadData.result.public_id;
         }
       }
 
@@ -95,8 +105,8 @@ const Settings = () => {
         },
         body: JSON.stringify({
           ...formData,
-          birthday: formData.dateOfBirth,
           avatar: uploadedImageUrl,
+          avatarId: uploadedPublicId,
         }),
       });
 
@@ -242,9 +252,9 @@ const Settings = () => {
                 className="w-full p-2 bg-background border rounded-md"
               >
                 <option value="">Select</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
               </select>
             </div>
           </div>
@@ -266,8 +276,8 @@ const Settings = () => {
             <label className="block text-gray-200 mb-1">Date of Birth</label>
             <Input
               type="date"
-              name="dateOfBirth"
-              value={formData.dateOfBirth}
+              name="birthday"
+              value={formData.birthday}
               onChange={handleChange}
             />
           </div>

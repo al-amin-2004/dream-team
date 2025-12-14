@@ -20,6 +20,7 @@ export interface IUser {
   phone?: string;
   password: string;
   avatar?: string;
+  avatarId?: string;
   address?: string;
   gender?: Gender;
   birthday?: string;
