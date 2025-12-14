@@ -22,6 +22,7 @@ import {
   MailIcon,
   UserIcon,
 } from "lucide-react";
+import { useUser } from "@/providers/UserContext";
 
 interface SignUpData {
   firstName: string;
@@ -32,6 +33,7 @@ interface SignUpData {
 
 const SignUp: React.FC = () => {
   const router = useRouter();
+  const { refreshUser } = useUser();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -65,6 +67,7 @@ const SignUp: React.FC = () => {
       if (!res.ok) {
         toast.info(data.message || "Something Worng!");
       } else {
+        refreshUser();
         toast.success(data.message);
         router.push("/");
       }
