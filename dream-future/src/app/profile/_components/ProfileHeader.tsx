@@ -68,7 +68,7 @@ const Header = () => {
           <ul className="flex gap-2.5">
             {accounts.map((account, idx) => (
               <li
-                key={account._id}
+                key={idx}
                 onClick={() => setActiveAccount(account)}
                 className={cn(
                   "p-2 bg-green-500/15 text-green-500 size-8 rounded-full flex justify-center items-center cursor-pointer",

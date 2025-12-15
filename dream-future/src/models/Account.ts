@@ -4,7 +4,7 @@ import mongoose, { Schema } from "mongoose";
 const accountSchema = new Schema<IAccount>(
   {
     userId: {
-      type: Schema.Types.ObjectId || String,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
