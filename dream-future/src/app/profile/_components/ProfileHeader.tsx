@@ -34,6 +34,7 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 
 const Header = () => {
   const { accounts, activeAccount, setActiveAccount } = useAccounts();
@@ -82,7 +83,31 @@ const Header = () => {
           </ul>
         )}
 
-        <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" />
+        {/* <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" /> */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-sm p-2.5">
+            <DropdownMenuLabel className="text-2xl font-medium">
+              Notifications/
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator />
+
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <DropdownMenuItem
+                key={idx}
+                className="flex-col items-start gap-0"
+              >
+                <h5 className="text-base">Official sms</h5>
+                <p className="text-sm">
+                  Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+                  Laboriosam, at.
+                </p>
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <div className="px-3.5 py-1.5 rounded-full bg-slate-400/15 flex items-center gap-2">
           <DiamondIcon className="size-5" />

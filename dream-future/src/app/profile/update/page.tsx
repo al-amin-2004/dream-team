@@ -186,7 +186,9 @@ const Settings = () => {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div>No Image</div>
+                <div className="flex justify-center items-center h-full">
+                  No Image
+                </div>
               )}
             </div>
 

@@ -12,13 +12,18 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Loading2 } from "@/icons";
 
 const Profile = () => {
   const { user, loading } = useUser();
   const { activeAccount } = useAccounts();
 
   if (loading)
-    return <p className="text-center text-red-500 text-5xl">Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-[calc(100vh-85px)]">
+        <Loading2 />
+      </div>
+    );
 
   if (!user) {
     toast.error("No user data found!");
