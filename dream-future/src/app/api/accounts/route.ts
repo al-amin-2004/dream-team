@@ -44,3 +44,38 @@ export async function GET() {
     );
   }
 }
+
+export async function POST() {
+  try {
+    await connectDB();
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { ok: false, message: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as JwtPayload & {
+      userId: string;
+    };
+
+    await Account.create({
+      userId: decoded.userId,
+    });
+
+    return NextResponse.json({
+      ok: true,
+      message: "New account created",
+    });
+  } catch (error) {
+    console.error("accounts route error:", error);
+    return NextResponse.json(
+      { ok: false, message: "Server error" },
+      { status: 500 }
+    );
+  }
+}

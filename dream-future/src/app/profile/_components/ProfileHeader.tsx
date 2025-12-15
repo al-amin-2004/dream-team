@@ -35,9 +35,19 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Header = () => {
-  const { accounts, activeAccount, setActiveAccount } = useAccounts();
+  const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
+    useAccounts();
+  const [showCreateAccountDialog, setShowCreateAccountDialog] =
+    useState<boolean>(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
   const { open, toggle } = useSidebar();
   const { user } = useUser();
@@ -50,6 +60,25 @@ const Header = () => {
       setShowLogoutDialog(false);
       window.location.href = "/";
       toast.success(data?.message);
+    } catch (err) {
+      console.error(err);
+      toast.error("Something went wrong!");
+    }
+  };
+
+  const handleCreateAccount = async () => {
+    try {
+      const res = await fetch("/api/accounts", { method: "POST" });
+      const data = await res.json();
+
+      if (!data.ok) {
+        toast.error("Something went wrong!");
+        console.error("Api not response!");
+      }
+
+      setShowCreateAccountDialog(false);
+      toast.success(data?.message);
+      await refreshAccounts();
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong!");
@@ -83,7 +112,6 @@ const Header = () => {
           </ul>
         )}
 
-        {/* <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" /> */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" />
@@ -139,28 +167,118 @@ const Header = () => {
 
             <ChevronDown className="size-5 ms-2.5 me-1" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-full" align="start">
-            <DropdownMenuGroup className="w-full">
-              {user?.role === "admin" && (
-                <div>
-                  <DropdownMenuItem className="cursor-pointer">
-                    Admin
-                    <DropdownMenuShortcut>ctl A</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                </div>
-              )}
+          <DropdownMenuContent align="start" className="mr-2.5 p-2.5">
+            <DropdownMenuGroup className="shadow-xl bg-accent rounded-sm p-1 mb-2">
+              <DropdownMenuItem className="w-65">
+                {user?.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    width={300}
+                    height={300}
+                    alt="Profile Picture"
+                    className="size-7 ring-2 ring-ring rounded-full"
+                  />
+                ) : (
+                  <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
+                )}
 
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onSelect={() => setShowLogoutDialog(true)}
-              >
-                Logout
-                <DropdownMenuShortcut>ctl L</DropdownMenuShortcut>
+                <span className="w-0.5 h-6 bg-slate-300/40 mr-2" />
+
+                <div>
+                  <h2 className="font-semibold text-sm leading-4 tracking-wider">
+                    {`${user?.firstName} ${user?.lastName}`}
+                  </h2>
+                  <p className="text-xs text-primary">{user?.role}</p>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                {accounts.length > 1 && (
+                  <Select
+                    value={
+                      activeAccount ? String(activeAccount._id) : undefined
+                    }
+                    onValueChange={(value) => {
+                      const selected = accounts.find(
+                        (acc) => String(acc._id) === value
+                      );
+                      if (selected) setActiveAccount(selected);
+                    }}
+                  >
+                    <SelectTrigger className="w-full">
+                      <SelectValue placeholder="Select account" />
+                    </SelectTrigger>
+
+                    <SelectContent>
+                      {accounts.map((account, idx) => (
+                        <SelectItem
+                          key={String(account._id)}
+                          value={String(account._id)}
+                        >
+                          Account {idx + 1}
+                          {idx + 1 === 1 && " (Main)"}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               </DropdownMenuItem>
             </DropdownMenuGroup>
+
+            {user?.role === "admin" && (
+              <div>
+                <DropdownMenuItem className="cursor-pointer">
+                  Admin Paenl
+                  <DropdownMenuShortcut>ctl A</DropdownMenuShortcut>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </div>
+            )}
+
+            <DropdownMenuGroup>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onSelect={() => setShowCreateAccountDialog(true)}
+              >
+                Create another Account
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onSelect={() => setShowLogoutDialog(true)}
+            >
+              Logout
+              <DropdownMenuShortcut>ctl L</DropdownMenuShortcut>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
+
+        <Dialog
+          open={showCreateAccountDialog}
+          onOpenChange={setShowCreateAccountDialog}
+        >
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Create Account</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to
+                <b>Create</b> another account?
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button className="hover:translate-0">Cancel</Button>
+              </DialogClose>
+              <Button
+                type="submit"
+                className="bg-green-500 hover:bg-green-600 hover:translate-0"
+                onClick={handleCreateAccount}
+              >
+                Sure
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
           <DialogContent className="sm:max-w-[425px]">

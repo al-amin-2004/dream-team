@@ -14,6 +14,7 @@ interface AccountContextType {
   activeAccount: IAccount | null;
   setActiveAccount: (acc: IAccount) => void;
   loading: boolean;
+  refreshAccounts: () => Promise<void>;
 }
 
 const AccountContext = createContext<AccountContextType>({
@@ -21,6 +22,7 @@ const AccountContext = createContext<AccountContextType>({
   activeAccount: null,
   setActiveAccount: () => {},
   loading: true,
+  refreshAccounts: async () => {},
 });
 
 export const AccountProvider = ({ children }: { children: ReactNode }) => {
@@ -28,14 +30,15 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const [activeAccount, setActiveAccount] = useState<IAccount | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const fetchAccounts = async () => {
+  const refreshAccounts = async () => {
     setLoading(true);
     try {
       const res = await fetch("/api/accounts", { cache: "no-store" });
       const data = await res.json();
-      if (data.ok) {
+
+      if (data.ok && Array.isArray(data.accounts)) {
         setAccounts(data.accounts);
-        setActiveAccount(data.accounts[0]);
+        setActiveAccount((prev) => prev ?? data.accounts[0] ?? null);
       } else {
         setAccounts([]);
         setActiveAccount(null);
@@ -44,20 +47,27 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
       console.error("Failed to fetch accounts:", error);
       setAccounts([]);
       setActiveAccount(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
     const loadAccounts = async () => {
-      await fetchAccounts();
+      await refreshAccounts();
     };
     loadAccounts();
   }, []);
 
   return (
     <AccountContext.Provider
-      value={{ accounts, activeAccount, setActiveAccount, loading }}
+      value={{
+        accounts,
+        activeAccount,
+        setActiveAccount,
+        loading,
+        refreshAccounts,
+      }}
     >
       {children}
     </AccountContext.Provider>
