@@ -1,16 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import Image from "next/image";
 import { DiamondIcon } from "@/icons";
 import { useSidebar } from "@/providers/SidebarContext";
 import { useUser } from "@/providers/UserContext";
 import { Button } from "@/app/_components/ui/Button";
+import { toast } from "sonner";
+import { useAccounts } from "@/providers/AccountContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -30,10 +33,11 @@ import {
   PanelRight,
   User,
 } from "lucide-react";
-import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 const Header = () => {
-  const [showLogoutDialog, setShowLogoutDialog] = useState(false);
+  const { accounts, activeAccount, setActiveAccount } = useAccounts();
+  const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
   const { open, toggle } = useSidebar();
   const { user } = useUser();
 
@@ -60,11 +64,29 @@ const Header = () => {
 
       {/* left side */}
       <div className="flex items-center gap-5">
+        {accounts.length > 1 && (
+          <ul className="flex gap-2.5">
+            {accounts.map((account, idx) => (
+              <li
+                key={account._id}
+                onClick={() => setActiveAccount(account)}
+                className={cn(
+                  "p-2 bg-green-500/15 text-green-500 size-8 rounded-full flex justify-center items-center cursor-pointer",
+                  account._id === activeAccount?._id &&
+                    "text-red-400 ring ring-red-400 bg-red-400/15"
+                )}
+              >
+                {idx + 1}
+              </li>
+            ))}
+          </ul>
+        )}
+
         <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" />
 
         <div className="px-3.5 py-1.5 rounded-full bg-slate-400/15 flex items-center gap-2">
           <DiamondIcon className="size-5" />
-          <p>{user?.stone}</p>
+          <p>{activeAccount?.totalRewards}</p>
         </div>
 
         <DropdownMenu>
@@ -94,8 +116,18 @@ const Header = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-full" align="start">
             <DropdownMenuGroup className="w-full">
+              {user?.role === "admin" && (
+                <div>
+                  <DropdownMenuItem className="cursor-pointer">
+                    Admin
+                    <DropdownMenuShortcut>ctl A</DropdownMenuShortcut>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </div>
+              )}
+
               <DropdownMenuItem
-                className="w-full"
+                className="cursor-pointer"
                 onSelect={() => setShowLogoutDialog(true)}
               >
                 Logout
@@ -104,6 +136,7 @@ const Header = () => {
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
+
         <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>

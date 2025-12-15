@@ -160,7 +160,7 @@ const Settings = () => {
       />
 
       <div className="max-w-9/12 mx-auto">
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Profile Picture */}
           <div className="relative w-fit">
             <div className="size-42 mb-2 rounded-full overflow-hidden border-2 border-gray-300">

@@ -4,10 +4,18 @@ import Image from "next/image";
 import { toast } from "sonner";
 import ProfilePagesTitle from "./_components/ProfilePagesTitle";
 import { useUser } from "@/providers/UserContext";
+import { useAccounts } from "@/providers/AccountContext";
 import UserDetailsList from "./_components/UserDetailsList";
+import DipositForm from "./_components/DipositForm";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const Profile = () => {
   const { user, loading } = useUser();
+  const { activeAccount } = useAccounts();
 
   if (loading)
     return <p className="text-center text-red-500 text-5xl">Loading...</p>;
@@ -27,8 +35,6 @@ const Profile = () => {
     gender,
     birthday,
     address,
-    diposite,
-    profit,
     blood,
     nationality,
   } = user;
@@ -66,24 +72,49 @@ const Profile = () => {
           <div className="border-2 p-6 rounded-xl">
             <div className="flex justify-between py-3 border-b">
               <h1 className="text-xl font-semibold">Balance quiry</h1>
-              <div className="size-4 text-green-500 relative">
-                <span className="absolute inset-0 bg-current rounded-full opacity-50 animate-ping"></span>
-                <span className="absolute inset-0.5 bg-current rounded-full"></span>
-              </div>
+
+              {activeAccount?.status === "active" ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="size-4 text-green-500 relative">
+                      <span className="absolute inset-0 bg-current rounded-full opacity-50 animate-ping"></span>
+                      <span className="absolute inset-0.5 bg-current rounded-full"></span>
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>Account Actived 😊</span>
+                  </TooltipContent>
+                </Tooltip>
+              ) : (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div className="size-4 bg-red-500 rounded-full" />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <span>Account Blocked 😔</span>
+                  </TooltipContent>
+                </Tooltip>
+              )}
             </div>
 
             <div className="w-full flex gap-4 mt-6">
               <div className="p-3 space-y-2.5 rounded-xl flex-1 bg-yellow-500/30">
-                <h3 className="text-sm text-yellow-500">Total Diposite</h3>
-                <p className="text-2xl font-bold">$ {diposite}.00</p>
+                <h3 className="text-sm text-yellow-500">Total Deposit</h3>
+                <p className="text-2xl font-bold">
+                  ${activeAccount?.totalDeposit}.00
+                </p>
               </div>
               <div className="p-3 space-y-2.5 rounded-xl flex-1 bg-green-500/20">
                 <h3 className="text-sm text-green-500">Profit</h3>
-                <p className="text-2xl font-bold">$ {profit}.00</p>
+                <p className="text-2xl font-bold">
+                  ${activeAccount?.totalProfit}.00
+                </p>
               </div>
               <div className="p-3 space-y-2.5 rounded-xl flex-1 bg-blue-500/20">
                 <h3 className="text-sm text-blue-500">Total Balance</h3>
-                <p className="text-2xl font-bold">$ {diposite + profit}.00</p>
+                <p className="text-2xl font-bold">
+                  ${activeAccount?.balance}.00
+                </p>
               </div>
             </div>
           </div>
@@ -109,6 +140,8 @@ const Profile = () => {
           </div>
         </div>
       </div>
+
+      <DipositForm />
     </div>
   );
 };

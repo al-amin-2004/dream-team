@@ -4,6 +4,7 @@ import User from "@/models/User";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { generateUsername } from "@/lib/generateUsername";
+import Account from "@/models/Account";
 
 const jwtSecret = process.env.JWT_SECRET;
 
@@ -34,10 +35,22 @@ export async function POST(req: Request) {
     });
     await newUser.save();
 
+    // Automatic default account
+    await Account.create({
+      userId: newUser._id,
+    });
+
     // Cookie set with JWT
     if (!jwtSecret) throw new Error("JWT_SECRET is not defined!");
 
-    const token = jwt.sign({ email: newUser.email }, jwtSecret);
+    const token = jwt.sign(
+      {
+        userId: newUser._id.toString(),
+        email: newUser.email,
+        role: newUser.role,
+      },
+      jwtSecret
+    );
 
     const cookieStore = await cookies();
 

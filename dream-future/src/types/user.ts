@@ -1,3 +1,5 @@
+import { ObjectId } from "mongoose";
+
 type UserRole = "member" | "treasurer" | "admin";
 type Gender = "Male" | "Female" | "Other" | undefined;
 type Blood =
@@ -12,7 +14,7 @@ type Blood =
   | undefined;
 
 export interface IUser {
-  _id: string;
+  _id: ObjectId | string;
   firstName: string;
   lastName?: string;
   username: string;
@@ -26,8 +28,5 @@ export interface IUser {
   birthday?: string;
   blood?: Blood;
   nationality: string;
-  diposite: number;
-  profit: number;
-  stone: number;
   role: UserRole;
 }

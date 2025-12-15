@@ -13,8 +13,8 @@ export async function POST(req: Request) {
     const userInfo = await req.json();
 
     // check existsting email
-    const existsEmail = await User.findOne({ email: userInfo.email });
-    if (!existsEmail) {
+    const user = await User.findOne({ email: userInfo.email });
+    if (!user) {
       return new Response(JSON.stringify({ message: "Something is wrong!" }), {
         status: 400,
       });
@@ -23,7 +23,7 @@ export async function POST(req: Request) {
     //  check hashed Password with bcrypt
     const validPassword = await bcrypt.compare(
       userInfo.password,
-      existsEmail.password
+      user.password
     );
 
     if (!validPassword) {
@@ -34,7 +34,14 @@ export async function POST(req: Request) {
 
     // Cookie set with JWT
     if (!jwtSecret) throw new Error("JWT_SECRET is not defined!");
-    const token = jwt.sign({ email: existsEmail.email }, jwtSecret);
+    const token = jwt.sign(
+      {
+        userId: user._id.toString(),
+        email: user.email,
+        role: user.role,
+      },
+      jwtSecret
+    );
 
     const cookieStore = await cookies();
     cookieStore.set("auth_token", token, {

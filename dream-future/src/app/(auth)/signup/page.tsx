@@ -37,7 +37,6 @@ const SignUp: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isChecked, setIsChecked] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [message, setMessage] = useState("");
   const [signup, setSignup] = useState<SignUpData>({
     firstName: "",
     lastName: "",
@@ -53,7 +52,6 @@ const SignUp: React.FC = () => {
     e.preventDefault();
 
     setIsLoading(true);
-    setMessage("");
 
     try {
       const res = await fetch(`/api/auth/signup`, {

@@ -29,7 +29,6 @@ const userSchema = new Schema<IUser>(
     avatarId: { type: String, default: "" },
     birthday: String,
     address: String,
-    stone: { type: Number, default: 0 },
     role: {
       type: String,
       enum: ["member", "treasurer", "admin"],
@@ -41,8 +40,6 @@ const userSchema = new Schema<IUser>(
       default: "",
     },
     nationality: String,
-    diposite: { type: Number, default: 0 },
-    profit: { type: Number, default: 0 },
   },
   {
     timestamps: true,
