@@ -159,7 +159,7 @@ const Settings = () => {
         description="Showing your all histories with a clear view."
       />
 
-      <div className="max-w-9/12 mx-auto">
+      <div className="md:max-w-9/12 mx-auto">
         <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Profile Picture */}
           <div className="relative w-fit">
