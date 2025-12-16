@@ -44,10 +44,8 @@ import {
 } from "@/components/ui/select";
 
 const Header = () => {
-  const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
-    useAccounts();
-  const [showCreateAccountDialog, setShowCreateAccountDialog] =
-    useState<boolean>(false);
+  const { accounts, activeAccount, setActiveAccount, refreshAccounts } = useAccounts();
+  const [showCreateAccountDialog, setShowCreateAccountDialog] = useState<boolean>(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
   const { open, toggle } = useSidebar();
   const { user } = useUser();
@@ -86,16 +84,17 @@ const Header = () => {
   };
 
   return (
-    <header className="py-5 px-6 flex items-center justify-between border-b border-zinc-700 sticky top-0 z-50 bg-background">
+    <header className="py-4 md:py-5 px-6 flex items-center justify-between border-b border-zinc-700 sticky top-0 z-50 bg-background">
       {/* right side */}
       <button onClick={toggle} className="cursor-pointer">
         {open ? <PanelLeft /> : <PanelRight />}
       </button>
 
       {/* left side */}
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-4 md:gap-5">
+
         {accounts.length > 1 && (
-          <ul className="flex gap-2.5">
+          <ul className="hidden md:flex gap-2.5">
             {accounts.map((account, idx) => (
               <li
                 key={idx}
@@ -137,13 +136,13 @@ const Header = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <div className="px-3.5 py-1.5 rounded-full bg-slate-400/15 flex items-center gap-2">
+        <div className="px-3.5 py-1.5 rounded-full bg-slate-400/15 flex items-center gap-1 md:gap-2">
           <DiamondIcon className="size-5" />
           <p>{activeAccount?.totalRewards}</p>
         </div>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="text-start px-2.5 py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
+          <DropdownMenuTrigger className="text-start md:px-2.5 md:py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
             {user?.avatar ? (
               <Image
                 src={user.avatar}
@@ -156,20 +155,20 @@ const Header = () => {
               <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
             )}
 
-            <span className="w-0.5 h-6 bg-slate-300/40" />
+            <span className="hidden md:block w-0.5 h-6 bg-slate-300/40" />
 
-            <div>
+            <div className="hidden md:block">
               <h2 className="font-semibold text-sm leading-4 tracking-wider">
                 {`${user?.firstName} ${user?.lastName}`}
               </h2>
               <p className="text-xs text-primary">{user?.role}</p>
             </div>
 
-            <ChevronDown className="size-5 ms-2.5 me-1" />
+            <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="mr-2.5 p-2.5">
-            <DropdownMenuGroup className="shadow-xl bg-accent rounded-sm p-1 mb-2">
-              <DropdownMenuItem className="w-65">
+          <DropdownMenuContent align="start" className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5">
+            <DropdownMenuGroup className="shadow-xl bg-accent rounded-sm p-2 mb-2">
+              <DropdownMenuItem>
                 {user?.avatar ? (
                   <Image
                     src={user.avatar}
@@ -191,7 +190,6 @@ const Header = () => {
                   <p className="text-xs text-primary">{user?.role}</p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem>
                 {accounts.length > 1 && (
                   <Select
                     value={
@@ -221,7 +219,6 @@ const Header = () => {
                     </SelectContent>
                   </Select>
                 )}
-              </DropdownMenuItem>
             </DropdownMenuGroup>
 
             {user?.role === "admin" && (
