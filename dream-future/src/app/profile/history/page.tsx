@@ -100,7 +100,7 @@ const History = () => {
             }`}
           >
             <div
-              className={`w-full rounded-md p-4 min-w-[350px] bg-[#1e1f21] grid grid-cols-5 place-items-center text-lg font-medium border border-emerald-600 sticky top-0 ${
+              className={`w-full rounded-md p-4 min-w-[350px] grid grid-cols-5 place-items-center text-lg font-medium border border-emerald-600 sticky top-0 ${
                 isGrid && "hidden"
               }`}
             >
