@@ -16,7 +16,7 @@ export default function ProfileLayout({
         <AccountProvider>
           <div className="flex-1 overflow-y-scroll">
             <Header />
-            {/* <section className="px-14">{children}</section> */}
+            <section className="px-6 md:px-14">{children}</section>
           </div>
         </AccountProvider>
       </main>

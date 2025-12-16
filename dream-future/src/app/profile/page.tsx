@@ -7,12 +7,12 @@ import { useUser } from "@/providers/UserContext";
 import { useAccounts } from "@/providers/AccountContext";
 import UserDetailsList from "./_components/UserDetailsList";
 import DipositForm from "./_components/DipositForm";
+import { Loading2 } from "@/icons";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Loading2 } from "@/icons";
 
 const Profile = () => {
   const { user, loading } = useUser();
@@ -45,17 +45,19 @@ const Profile = () => {
   } = user;
 
   return (
-    <div className="space-y-12">
+    <div className="space-y-5 md:space-y-12">
+      {/* Page title component */}
       <ProfilePagesTitle
         title="Profile"
         description="View all your profile details here."
       />
 
-      <div className="flex gap-8">
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Top left side */}
         <div className="flex-2 border-2 p-6 rounded-xl flex flex-col items-center">
           <h1 className="text-4xl font-semibold">{`${firstName} ${lastName}`}</h1>
           <p className="text-primary mb-5">{username}</p>
-          <div className="size-99 border-18 rounded-full overflow-hidden flex justify-center items-center">
+          <div className="md:size-99 border-6 md:border-18 border-primary rounded-full overflow-hidden flex justify-center items-center">
             {avatar ? (
               <Image
                 src={avatar}
@@ -74,7 +76,7 @@ const Profile = () => {
 
         {/* Top right side */}
         <div className="flex-3 flex flex-col gap-8 ">
-          <div className="border-2 p-6 rounded-xl">
+          <div className="border-2 p-3.5 md:p-6 rounded-xl">
             <div className="flex justify-between py-3 border-b">
               <h1 className="text-xl font-semibold">Balance quiry</h1>
 
@@ -102,34 +104,34 @@ const Profile = () => {
               )}
             </div>
 
-            <div className="w-full flex gap-4 mt-6">
-              <div className="p-3 space-y-2.5 rounded-xl flex-1 bg-yellow-500/30">
+            <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mt-6">
+              <div className="p-2.5 md:p-3 space-y-2.5 rounded-xl bg-yellow-500/30">
                 <h3 className="text-sm text-yellow-500">Total Deposit</h3>
                 <p className="text-2xl font-bold">
-                  ${activeAccount?.totalDeposit}.00
+                  $ {activeAccount?.totalDeposit}
                 </p>
               </div>
-              <div className="p-3 space-y-2.5 rounded-xl flex-1 bg-green-500/20">
+              <div className="p-2.5 md:p-3 space-y-2.5 rounded-xl bg-green-500/20">
                 <h3 className="text-sm text-green-500">Profit</h3>
                 <p className="text-2xl font-bold">
-                  ${activeAccount?.totalProfit}.00
+                  $ {activeAccount?.totalProfit}
                 </p>
               </div>
-              <div className="p-3 space-y-2.5 rounded-xl flex-1 bg-blue-500/20">
+              <div className="p-2.5 md:p-3 space-y-2.5 rounded-xl bg-blue-500/20 col-span-2 lg:col-span-1">
                 <h3 className="text-sm text-blue-500">Total Balance</h3>
                 <p className="text-2xl font-bold">
-                  ${activeAccount?.balance}.00
+                  $ {activeAccount?.balance}.00
                 </p>
               </div>
             </div>
           </div>
 
-          <div className="border-2 p-6 rounded-xl flex-3">
+          <div className="border-2 p-3.5 md:p-6 rounded-xl flex-3">
             <h1 className="text-xl font-semibold py-3 border-b">
               Bio & others details
             </h1>
 
-            <ul className="grid grid-cols-2 pt-3">
+            <ul className="lg:grid grid-cols-2 pt-3">
               <UserDetailsList label="Email" value={email} />
               <UserDetailsList label="Phone" value={phone} />
               <UserDetailsList label="Date of Birth" value={birthday} />

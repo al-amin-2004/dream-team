@@ -86,13 +86,13 @@ const DipositForm = () => {
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerTrigger asChild className="float-right">
+      <DrawerTrigger asChild className="float-right sticky lg:static bottom-8">
         <Button>
           <Plus className="stroke-3 mr-1" /> Deposit money
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent>
+      <DrawerContent className="p-3">
         <DrawerClose className="cursor-pointer mt-0 ml-auto mr-7">
           <X />
         </DrawerClose>
