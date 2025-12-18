@@ -31,9 +31,9 @@ const Sidebar = () => {
     <>
       <aside
         className={cn(
-          "absolute md:static md:block bg-background h-screen z-60 md:p-2 border-r border-zinc-700 transition-all duration-400 ease-in-out",
+          "fixed md:static bg-background h-screen z-60 md:p-2 border-r border-zinc-700 transition-all duration-400 ease-in-out",
           navOpen ? "w-[calc(100%-30px)]" : "w-0",
-          open ? "md:w-84" : "md:w-25",
+          open ? "md:w-84" : "md:w-25"
         )}
       >
         <LeftArrowIcon
@@ -49,7 +49,7 @@ const Sidebar = () => {
             {sidebarItems.map((item, idx) => {
               const navActive = pathname === item.link;
               return (
-                <li key={idx}>
+                <li key={idx} onClick={() => setNavOpen(false)}>
                   <Link
                     href={item.link}
                     className={cn(
@@ -133,7 +133,7 @@ export default Sidebar;
 
 //   return (
 //     <>
-     
+
 //       {mobileOpen && (
 //         <div
 //           className="fixed inset-0 bg-black/40 z-40 md:hidden"
@@ -141,7 +141,6 @@ export default Sidebar;
 //         />
 //       )}
 
-      
 //       <aside
 //         className={cn(
 //           "fixed md:static z-60 h-screen bg-background border-r transition-all duration-300",
@@ -149,7 +148,7 @@ export default Sidebar;
 //           mobileOpen ? "w-72" : "w-0 md:w-auto"
 //         )}
 //       >
-        
+
 //         <div className="flex md:hidden justify-end p-3">
 //           <X className="cursor-pointer" onClick={() => setMobileOpen(false)} />
 //         </div>
@@ -191,7 +190,6 @@ export default Sidebar;
 //         </ul>
 //       </aside>
 
-     
 //       <button
 //         onClick={() => setMobileOpen(true)}
 //         className="fixed bottom-5 left-5 z-40 md:hidden bg-primary text-white p-3 rounded-full shadow-lg"
