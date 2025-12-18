@@ -112,6 +112,7 @@ const Header = () => {
           </ul>
         )}
 
+        {/* Notification component */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <BellDot className="size-8 p-2 ring ring-ring rounded-full cursor-pointer" />
