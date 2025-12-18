@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 import { DiamondIcon } from "@/icons";
 import { useSidebar } from "@/providers/SidebarContext";
 import { useUser } from "@/providers/UserContext";
 import { Button } from "@/app/_components/ui/Button";
-import { toast } from "sonner";
 import { useAccounts } from "@/providers/AccountContext";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +36,6 @@ import {
   PanelRight,
   User,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -42,7 +43,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Skeleton } from "@/components/ui/skeleton";
 
 const Header = () => {
   const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
