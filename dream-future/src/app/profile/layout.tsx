@@ -11,7 +11,7 @@ export default function ProfileLayout({
   return (
     <SidebarProvider>
       <main className="flex h-screen overflow-hidden" aria-hidden={false}>
-        {/* <Sidebar /> */}
+        <Sidebar />
         
         <AccountProvider>
           <div className="flex-1 overflow-y-scroll">

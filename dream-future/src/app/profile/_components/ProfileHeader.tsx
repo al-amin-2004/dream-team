@@ -44,8 +44,10 @@ import {
 } from "@/components/ui/select";
 
 const Header = () => {
-  const { accounts, activeAccount, setActiveAccount, refreshAccounts } = useAccounts();
-  const [showCreateAccountDialog, setShowCreateAccountDialog] = useState<boolean>(false);
+  const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
+    useAccounts();
+  const [showCreateAccountDialog, setShowCreateAccountDialog] =
+    useState<boolean>(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
   const { open, toggle } = useSidebar();
   const { user } = useUser();
@@ -84,15 +86,14 @@ const Header = () => {
   };
 
   return (
-    <header className="py-4 md:py-5 px-6 flex items-center justify-between border-b border-zinc-700 sticky top-0 z-50 bg-background">
+    <header className="py-4 md:py-5 px-6 flex items-center justify-end md:justify-between border-b border-zinc-700 sticky top-0 z-50 bg-background">
       {/* right side */}
-      <button onClick={toggle} className="cursor-pointer">
+      <button onClick={toggle} className="hidden md:block cursor-pointer">
         {open ? <PanelLeft /> : <PanelRight />}
       </button>
 
       {/* left side */}
       <div className="flex items-center gap-4 md:gap-5">
-
         {accounts.length > 1 && (
           <ul className="hidden md:flex gap-2.5">
             {accounts.map((account, idx) => (
@@ -166,7 +167,10 @@ const Header = () => {
 
             <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5">
+          <DropdownMenuContent
+            align="start"
+            className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5"
+          >
             <DropdownMenuGroup className="shadow-xl bg-accent rounded-sm p-2 mb-2">
               <DropdownMenuItem>
                 {user?.avatar ? (
@@ -190,35 +194,33 @@ const Header = () => {
                   <p className="text-xs text-primary">{user?.role}</p>
                 </div>
               </DropdownMenuItem>
-                {accounts.length > 1 && (
-                  <Select
-                    value={
-                      activeAccount ? String(activeAccount._id) : undefined
-                    }
-                    onValueChange={(value) => {
-                      const selected = accounts.find(
-                        (acc) => String(acc._id) === value
-                      );
-                      if (selected) setActiveAccount(selected);
-                    }}
-                  >
-                    <SelectTrigger className="w-full">
-                      <SelectValue placeholder="Select account" />
-                    </SelectTrigger>
+              {accounts.length > 1 && (
+                <Select
+                  value={activeAccount ? String(activeAccount._id) : undefined}
+                  onValueChange={(value) => {
+                    const selected = accounts.find(
+                      (acc) => String(acc._id) === value
+                    );
+                    if (selected) setActiveAccount(selected);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select account" />
+                  </SelectTrigger>
 
-                    <SelectContent>
-                      {accounts.map((account, idx) => (
-                        <SelectItem
-                          key={String(account._id)}
-                          value={String(account._id)}
-                        >
-                          Account {idx + 1}
-                          {idx + 1 === 1 && " (Main)"}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
+                  <SelectContent>
+                    {accounts.map((account, idx) => (
+                      <SelectItem
+                        key={String(account._id)}
+                        value={String(account._id)}
+                      >
+                        Account {idx + 1}
+                        {idx + 1 === 1 && " (Main)"}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
             </DropdownMenuGroup>
 
             {user?.role === "admin" && (
