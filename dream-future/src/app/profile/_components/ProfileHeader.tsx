@@ -13,6 +13,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
@@ -34,7 +35,6 @@ import {
   User,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
 import {
   Select,
   SelectContent,
