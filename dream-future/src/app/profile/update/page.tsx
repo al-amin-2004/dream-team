@@ -2,13 +2,15 @@
 
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import Image from "next/image";
-import ProfilePageTitle from "../_components/ProfilePagesTitle";
+import ProfilePageTitle from "@/app/_components/ui/PagesTitle";
 import Input from "@/app/_components/ui/Input";
 import { Button } from "@/app/_components/ui/Button";
 import { Camera } from "lucide-react";
 import { Loading1 } from "@/icons";
 import { toast } from "sonner";
 import { useUser } from "@/providers/UserContext";
+import { motion } from "framer-motion";
+import { fadeUp, stagger } from "@/lib/motion";
 
 interface formDataTypes {
   firstName: string;
@@ -153,13 +155,18 @@ const Settings = () => {
     );
   }
   return (
-    <div className="space-y-12">
+    <motion.div
+      variants={stagger}
+      initial="hidden"
+      animate="visible"
+      className="space-y-12"
+    >
       <ProfilePageTitle
         title="Settings"
         description="Showing your all histories with a clear view."
       />
 
-      <div className="md:max-w-9/12 mx-auto">
+      <motion.div variants={fadeUp} className="md:max-w-9/12 mx-auto">
         <form onSubmit={handleSubmit} className="space-y-3.5">
           {/* Profile Picture */}
           <div className="relative w-fit">
@@ -321,8 +328,8 @@ const Settings = () => {
             Update Profile
           </Button>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

@@ -42,6 +42,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const Header = () => {
   const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
@@ -50,7 +51,7 @@ const Header = () => {
     useState<boolean>(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
   const { open, toggle } = useSidebar();
-  const { user } = useUser();
+  const { user, loading } = useUser();
 
   const handleLogout = async () => {
     try {
@@ -144,29 +145,40 @@ const Header = () => {
         </div>
 
         <DropdownMenu>
-          <DropdownMenuTrigger className="text-start md:px-2.5 md:py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
-            {user?.avatar ? (
-              <Image
-                src={user.avatar}
-                width={300}
-                height={300}
-                alt="Profile Picture"
-                className="size-7 ring-2 ring-ring rounded-full"
-              />
+          <DropdownMenuTrigger>
+            {loading ? (
+              <div className="flex items-center space-x-3">
+                <Skeleton className="size-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-20" />
+                </div>
+              </div>
             ) : (
-              <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
+              <div className="text-start md:px-2.5 md:py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
+                {user?.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    width={300}
+                    height={300}
+                    alt="Profile Picture"
+                    className="size-7 ring-2 ring-ring rounded-full"
+                  />
+                ) : (
+                  <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
+                )}
+
+                <span className="hidden md:block w-0.5 h-6 bg-slate-300/40" />
+
+                <div className="hidden md:block">
+                  <h2 className="font-semibold text-sm leading-4 tracking-wider">
+                    {`${user?.firstName} ${user?.lastName}`}
+                  </h2>
+                  <p className="text-xs text-primary">{user?.role}</p>
+                </div>
+                <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
+              </div>
             )}
-
-            <span className="hidden md:block w-0.5 h-6 bg-slate-300/40" />
-
-            <div className="hidden md:block">
-              <h2 className="font-semibold text-sm leading-4 tracking-wider">
-                {`${user?.firstName} ${user?.lastName}`}
-              </h2>
-              <p className="text-xs text-primary">{user?.role}</p>
-            </div>
-
-            <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"

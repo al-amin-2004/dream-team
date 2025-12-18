@@ -1,13 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import ProfilePagesTitle from "../_components/ProfilePagesTitle";
+import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
 import { ChartAreaInteractive } from "../_components/Graph";
 import { ArrowDownUp, Funnel, LayoutGrid, List } from "lucide-react";
-import {
-  HistoryCardGrid,
-  HistoryCardList,
-} from "../_components/HistoryCard";
+import { HistoryCardGrid, HistoryCardList } from "../_components/HistoryCard";
 import {
   Select,
   SelectContent,

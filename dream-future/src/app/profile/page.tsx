@@ -2,12 +2,14 @@
 
 import Image from "next/image";
 import { toast } from "sonner";
-import ProfilePagesTitle from "./_components/ProfilePagesTitle";
+import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
 import { useUser } from "@/providers/UserContext";
 import { useAccounts } from "@/providers/AccountContext";
 import UserDetailsList from "./_components/UserDetailsList";
 import DipositForm from "./_components/DipositForm";
 import { Loading2 } from "@/icons";
+import { motion } from "framer-motion";
+import { fadeUp, fade, stagger } from "@/lib/motion";
 import {
   Tooltip,
   TooltipContent,
@@ -45,16 +47,29 @@ const Profile = () => {
   } = user;
 
   return (
-    <div className="space-y-5 md:space-y-12">
+    <motion.div
+      variants={fade}
+      initial="hidden"
+      animate="visible"
+      className="space-y-5 md:space-y-12"
+    >
       {/* Page title component */}
       <ProfilePagesTitle
         title="Profile"
         description="View all your profile details here."
       />
 
-      <div className="flex flex-col md:flex-row gap-8">
+      <motion.div
+        variants={stagger}
+        initial="hidden"
+        animate="visible"
+        className="flex flex-col md:flex-row gap-8"
+      >
         {/* Top left side */}
-        <div className="flex-2 border-2 p-6 rounded-xl flex flex-col items-center">
+        <motion.div
+          variants={fadeUp}
+          className="flex-2 border-2 p-6 rounded-xl flex flex-col items-center"
+        >
           <h1 className="text-4xl font-semibold">{`${firstName} ${lastName}`}</h1>
           <p className="text-primary mb-5">{username}</p>
           <div className="md:size-99 border-6 md:border-18 border-primary rounded-full overflow-hidden flex justify-center items-center">
@@ -72,10 +87,10 @@ const Profile = () => {
               </span>
             )}
           </div>
-        </div>
+        </motion.div>
 
         {/* Top right side */}
-        <div className="flex-3 flex flex-col gap-8 ">
+        <motion.div variants={fadeUp} className="flex-3 flex flex-col gap-8 ">
           <div className="border-2 p-3.5 md:p-6 rounded-xl">
             <div className="flex justify-between py-3 border-b">
               <h1 className="text-xl font-semibold">Balance quiry</h1>
@@ -145,11 +160,11 @@ const Profile = () => {
               />
             </ul>
           </div>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
 
       <DipositForm />
-    </div>
+    </motion.div>
   );
 };
 

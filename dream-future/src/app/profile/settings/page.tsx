@@ -1,4 +1,4 @@
-import ProfilePageTitle from "../_components/ProfilePagesTitle";
+import ProfilePageTitle from "@/app/_components/ui/PagesTitle";
 
 const Settings = () => {
   // await new Promise((r) => setTimeout(r, 3000));
