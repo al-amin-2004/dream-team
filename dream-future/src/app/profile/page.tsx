@@ -53,7 +53,7 @@ const Profile = () => {
       animate="visible"
       className="space-y-5 md:space-y-12"
     >
-      {/* Page title component */}
+      {/* ================= PAGE TITLE COMPONENT ================= */}
       <ProfilePagesTitle
         title="Profile"
         description="View all your profile details here."

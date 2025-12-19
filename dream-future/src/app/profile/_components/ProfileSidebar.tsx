@@ -53,7 +53,7 @@ const Sidebar = () => {
                   <Link
                     href={item.link}
                     className={cn(
-                      "flex items-center gap-2 rounded cursor-pointer",
+                      "flex items-center gap-2 rounded text-nowrap cursor-pointer",
                       { "hover:bg-slate-400/20": open && !navActive },
                       { "bg-primary": open && navActive }
                     )}

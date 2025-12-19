@@ -21,10 +21,10 @@ export async function GET() {
     }
 
     const decode = jwt.verify(token, JWT_SECRET) as JwtPayload & {
-      email: string;
+      userId: string;
     };
 
-    const user = await User.findOne({ email: decode.email })
+    const user = await User.findOne({ _id: decode.userId })
       .select("-password")
       .lean();
 

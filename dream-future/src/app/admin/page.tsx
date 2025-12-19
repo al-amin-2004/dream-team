@@ -31,7 +31,7 @@ const stats = [
 export default function AdminDashboard() {
   return (
     <div className="space-y-5 md:space-y-12">
-      {/* Page title component */}
+      {/* ================= PAGE TITLE COMPONENT ================= */}
       <ProfilePagesTitle
         title="Admin Dashboard"
         description="System-wide overview, analytics and platform health."

@@ -17,7 +17,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -43,12 +42,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import Link from "next/link";
 
 const Header = () => {
-  const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
-    useAccounts();
-  const [showCreateAccountDialog, setShowCreateAccountDialog] =
-    useState<boolean>(false);
+  const { accounts, activeAccount, setActiveAccount } = useAccounts();
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
   const { open, toggle } = useSidebar();
   const { user, loading } = useUser();
@@ -61,25 +58,6 @@ const Header = () => {
       setShowLogoutDialog(false);
       window.location.href = "/";
       toast.success(data?.message);
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong!");
-    }
-  };
-
-  const handleCreateAccount = async () => {
-    try {
-      const res = await fetch("/api/accounts", { method: "POST" });
-      const data = await res.json();
-
-      if (!data.ok) {
-        toast.error("Something went wrong!");
-        console.error("Api not response!");
-      }
-
-      setShowCreateAccountDialog(false);
-      toast.success(data?.message);
-      await refreshAccounts();
     } catch (err) {
       console.error(err);
       toast.error("Something went wrong!");
@@ -180,6 +158,7 @@ const Header = () => {
               </div>
             )}
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             align="start"
             className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5"
@@ -238,59 +217,23 @@ const Header = () => {
 
             {user?.role === "admin" && (
               <div>
-                <DropdownMenuItem className="cursor-pointer">
-                  Admin Paenl
-                  <DropdownMenuShortcut>ctl A</DropdownMenuShortcut>
-                </DropdownMenuItem>
+                <Link href="admin/">
+                  <DropdownMenuItem className="cursor-pointer">
+                    Admin Paenl
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuSeparator />
               </div>
             )}
-
-            <DropdownMenuGroup>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onSelect={() => setShowCreateAccountDialog(true)}
-              >
-                Create another Account
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
 
             <DropdownMenuItem
               className="cursor-pointer"
               onSelect={() => setShowLogoutDialog(true)}
             >
               Logout
-              <DropdownMenuShortcut>ctl L</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
-        <Dialog
-          open={showCreateAccountDialog}
-          onOpenChange={setShowCreateAccountDialog}
-        >
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Create Account</DialogTitle>
-              <DialogDescription>
-                Are you sure you want to
-                <b>Create</b> another account?
-              </DialogDescription>
-            </DialogHeader>
-            <DialogFooter>
-              <DialogClose asChild>
-                <Button className="hover:translate-0">Cancel</Button>
-              </DialogClose>
-              <Button
-                type="submit"
-                className="bg-green-500 hover:bg-green-600 hover:translate-0"
-                onClick={handleCreateAccount}
-              >
-                Sure
-              </Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
 
         <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
           <DialogContent className="sm:max-w-[425px]">

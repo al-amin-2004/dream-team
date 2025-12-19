@@ -2,19 +2,15 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { DiamondIcon } from "@/icons";
-import { useSidebar } from "@/providers/SidebarContext";
 import { useUser } from "@/providers/UserContext";
 import { Button } from "@/app/_components/ui/Button";
 import { toast } from "sonner";
-import { useAccounts } from "@/providers/AccountContext";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
@@ -26,30 +22,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  BellDot,
-  ChevronDown,
-  PanelLeft,
-  PanelRight,
-  User,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { DropdownMenuLabel } from "@radix-ui/react-dropdown-menu";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { BellDot, ChevronDown, User } from "lucide-react";
 
 const Header = () => {
-  const { accounts, activeAccount, setActiveAccount, refreshAccounts } =
-    useAccounts();
-  const [showCreateAccountDialog, setShowCreateAccountDialog] =
-    useState<boolean>(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
-  const { open, toggle } = useSidebar();
   const { user } = useUser();
 
   const handleLogout = async () => {
@@ -66,33 +42,8 @@ const Header = () => {
     }
   };
 
-  const handleCreateAccount = async () => {
-    try {
-      const res = await fetch("/api/accounts", { method: "POST" });
-      const data = await res.json();
-
-      if (!data.ok) {
-        toast.error("Something went wrong!");
-        console.error("Api not response!");
-      }
-
-      setShowCreateAccountDialog(false);
-      toast.success(data?.message);
-      await refreshAccounts();
-    } catch (err) {
-      console.error(err);
-      toast.error("Something went wrong!");
-    }
-  };
-
   return (
-    <header className="py-4 md:py-5 px-6 flex items-center justify-end md:justify-between border-b border-zinc-700 sticky top-0 z-50 bg-background">
-      {/* right side */}
-      <button onClick={toggle} className="hidden md:block cursor-pointer">
-        {open ? <PanelLeft /> : <PanelRight />}
-      </button>
-
-      {/* left side */}
+    <header className="py-4 md:py-5 px-6 flex items-center justify-end border-b border-zinc-700 sticky top-0 z-50 bg-background">
       <div className="flex items-center gap-4 md:gap-5">
         {/* Notification component */}
         <DropdownMenu>
@@ -120,6 +71,7 @@ const Header = () => {
           </DropdownMenuContent>
         </DropdownMenu>
 
+        {/* Account component */}
         <DropdownMenu>
           <DropdownMenuTrigger className="text-start md:px-2.5 md:py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
             {user?.avatar ? (
@@ -145,6 +97,7 @@ const Header = () => {
 
             <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
           </DropdownMenuTrigger>
+
           <DropdownMenuContent
             align="start"
             className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5"
@@ -177,11 +130,9 @@ const Header = () => {
               onSelect={() => setShowLogoutDialog(true)}
             >
               Logout
-              <DropdownMenuShortcut>ctl L</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-
 
         <Dialog open={showLogoutDialog} onOpenChange={setShowLogoutDialog}>
           <DialogContent className="sm:max-w-[425px]">

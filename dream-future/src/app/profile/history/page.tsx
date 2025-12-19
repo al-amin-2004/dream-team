@@ -19,6 +19,7 @@ const History = () => {
 
   return (
     <div className="space-y-12">
+      {/* ================= PAGE TITLE COMPONENT ================= */}
       <ProfilePagesTitle
         title="History"
         description="Showing your all histories with a clear view."

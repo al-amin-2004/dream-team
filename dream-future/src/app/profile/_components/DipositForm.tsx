@@ -92,7 +92,7 @@ const DipositForm = () => {
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent className="p-3">
+      <DrawerContent className="p-3 z-99">
         <DrawerClose className="cursor-pointer mt-0 ml-auto mr-7">
           <X />
         </DrawerClose>

@@ -161,6 +161,7 @@ const Settings = () => {
       animate="visible"
       className="space-y-12"
     >
+      {/* ================= PAGE TITLE COMPONENT ================= */}
       <ProfilePageTitle
         title="Settings"
         description="Showing your all histories with a clear view."
