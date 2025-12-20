@@ -23,6 +23,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { BellDot, ChevronDown, User } from "lucide-react";
+import Link from "next/link";
 
 const Header = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
@@ -102,28 +103,30 @@ const Header = () => {
             align="start"
             className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5"
           >
-            <DropdownMenuItem className="shadow-xl bg-accent rounded-sm p-2 mb-2">
-              {user?.avatar ? (
-                <Image
-                  src={user.avatar}
-                  width={300}
-                  height={300}
-                  alt="Profile Picture"
-                  className="size-7 ring-2 ring-ring rounded-full"
-                />
-              ) : (
-                <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
-              )}
+            <Link href="profile">
+              <DropdownMenuItem className="shadow-xl bg-accent rounded-sm p-2 mb-2">
+                {user?.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    width={300}
+                    height={300}
+                    alt="Profile Picture"
+                    className="size-7 ring-2 ring-ring rounded-full"
+                  />
+                ) : (
+                  <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
+                )}
 
-              <span className="w-0.5 h-6 bg-slate-300/40 mr-2" />
+                <span className="w-0.5 h-6 bg-slate-300/40 mr-2" />
 
-              <div>
-                <h2 className="font-semibold text-sm leading-4 tracking-wider">
-                  {`${user?.firstName} ${user?.lastName}`}
-                </h2>
-                <p className="text-xs text-primary">{user?.role}</p>
-              </div>
-            </DropdownMenuItem>
+                <div>
+                  <h2 className="font-semibold text-sm leading-4 tracking-wider">
+                    {`${user?.firstName} ${user?.lastName}`}
+                  </h2>
+                  <p className="text-xs text-primary">{user?.role}</p>
+                </div>
+              </DropdownMenuItem>
+            </Link>
 
             <DropdownMenuItem
               className="cursor-pointer"

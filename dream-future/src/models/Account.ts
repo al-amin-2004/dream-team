@@ -8,8 +8,14 @@ const accountSchema = new Schema<IAccount>(
       ref: "User",
       required: true,
     },
+    name: {
+      type: String,
+      default: "A",
+      required: true,
+      unique: true,
+    },
 
-    status: { type: String, enum: ["active", "block"], default: "active" },
+    status: { type: String, enum: ["active", "block"], default: "block" },
 
     totalDeposit: { type: Number, default: 0 },
     totalProfit: { type: Number, default: 0 },

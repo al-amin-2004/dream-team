@@ -64,7 +64,7 @@ const AdminRequestsPage = () => {
                 <td>{req.date}</td>
                 <td>
                   <div className="flex gap-6">
-                    <button className="flex items-center gap-1.5 bg-green-600 px-2.5 py-1.5 rounded-full text-xs cursor-pointer">
+                    <button className="flex items-center gap-1.5 bg-green-600 px-2.5 py-1.5 rounded text-xs cursor-pointer">
                       <CheckCheck className="size-5" />
                       <span>Approve</span>
                     </button>
