@@ -7,7 +7,7 @@ import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
 import { useMemo, useState } from "react";
 
 const AccountsPage = () => {
-  const { accounts, activeAccount, setActiveAccount, loading } = useAccounts();
+  const { accounts, setActiveAccount, loading } = useAccounts();
   const [search, setSearch] = useState<string>("");
 
   const filteredAccounts = useMemo(() => {
@@ -75,8 +75,6 @@ const AccountsPage = () => {
 
           <tbody className="text-center">
             {filteredAccounts.map((account) => {
-              const isActive = activeAccount?._id === account._id;
-
               return (
                 <tr
                   key={account._id?.toString()}
