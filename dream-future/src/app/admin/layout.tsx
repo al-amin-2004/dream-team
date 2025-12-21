@@ -1,6 +1,7 @@
 import Header from "./_components/ProfileHeader";
-import { AccountProvider } from "@/providers/AccountContext";
 import Sidebar from "./_components/AdminSidebar";
+import { AllUsersProvider } from "@/providers/AllUsersContext";
+import { AllAccountsProvider } from "@/providers/AllAccountsContext";
 
 export default function ProfileLayout({
   children,
@@ -8,13 +9,15 @@ export default function ProfileLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AccountProvider>
-      <Header />
+    <AllUsersProvider>
+      <AllAccountsProvider>
+        <Header />
 
-      <main className="flex">
-        <Sidebar />
-        <div className="px-6 md:px-14 container">{children}</div>
-      </main>
-    </AccountProvider>
+        <main className="flex">
+          <Sidebar />
+          <div className="px-6 md:px-14 container">{children}</div>
+        </main>
+      </AllAccountsProvider>
+    </AllUsersProvider>
   );
 }

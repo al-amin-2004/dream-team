@@ -1,34 +1,52 @@
+"use client";
+
 import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
+import { Loading2 } from "@/icons";
+import { useAllAccounts } from "@/providers/AllAccountsContext";
+import { useAllUsers } from "@/providers/AllUsersContext";
 import { Users, Wallet, TrendingUp, ShieldAlert } from "lucide-react";
 
-const stats = [
-  {
-    title: "Total Users",
-    value: "1,248",
-    icon: Users,
-    color: "text-cyan-400",
-  },
-  {
-    title: "Total Accounts",
-    value: "2,031",
-    icon: Wallet,
-    color: "text-green-400",
-  },
-  {
-    title: "Monthly Deposits",
-    value: "৳ 5,40,000",
-    icon: TrendingUp,
-    color: "text-yellow-400",
-  },
-  {
-    title: "Blocked Users",
-    value: "12",
-    icon: ShieldAlert,
-    color: "text-red-400",
-  },
-];
-
 export default function AdminDashboard() {
+  const { allUsers, loading: userLoading } = useAllUsers();
+  const { allAccounts, loading } = useAllAccounts();
+
+  const blockedAccounts = allAccounts.filter(
+    (account) => account.status === "block"
+  );
+
+  const stats = [
+    {
+      title: "Total Users",
+      value: userLoading ? <Loading2 /> : allUsers.length,
+      icon: Users,
+      color: "text-cyan-400",
+    },
+    {
+      title: "Total Accounts",
+      value: loading ? <Loading2 /> : allAccounts.length,
+      icon: Wallet,
+      color: "text-green-400",
+    },
+    {
+      title: "Deposits this Month",
+      value: true ? <Loading2 /> : "৳ 5,40,000",
+      icon: TrendingUp,
+      color: "text-yellow-400",
+    },
+    {
+      title: "Blocked Accounts",
+      value: loading ? <Loading2 /> : blockedAccounts.length,
+      icon: ShieldAlert,
+      color: "text-red-400",
+    },
+    {
+      title: "Still due this month",
+      value: "10",
+      icon: ShieldAlert,
+      color: "text-red-500",
+    },
+  ];
+
   return (
     <div className="space-y-5 md:space-y-12">
       {/* ================= PAGE TITLE COMPONENT ================= */}

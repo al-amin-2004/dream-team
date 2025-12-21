@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { useUser } from "@/providers/UserContext";
 import { Button } from "@/app/_components/ui/Button";
 import { toast } from "sonner";
+import { BellDot, ChevronDown, User } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,12 +25,10 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { BellDot, ChevronDown, User } from "lucide-react";
-import Link from "next/link";
 
 const Header = () => {
   const [showLogoutDialog, setShowLogoutDialog] = useState<boolean>(false);
-  const { user } = useUser();
+  const { user, loading } = useUser();
 
   const handleLogout = async () => {
     try {
@@ -74,29 +75,41 @@ const Header = () => {
 
         {/* Account component */}
         <DropdownMenu>
-          <DropdownMenuTrigger className="text-start md:px-2.5 md:py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
-            {user?.avatar ? (
-              <Image
-                src={user.avatar}
-                width={300}
-                height={300}
-                alt="Profile Picture"
-                className="size-7 ring-2 ring-ring rounded-full"
-              />
+          <DropdownMenuTrigger>
+            {loading ? (
+              <div className="flex items-center space-x-3">
+                <Skeleton className="size-12 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-4 w-[150px]" />
+                  <Skeleton className="h-4 w-20" />
+                </div>
+              </div>
             ) : (
-              <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
+              <div className="text-start md:px-2.5 md:py-1.5 rounded-full bg-slate-400/15 flex items-center gap-3 cursor-pointer">
+                {user?.avatar ? (
+                  <Image
+                    src={user.avatar}
+                    width={300}
+                    height={300}
+                    alt="Profile Picture"
+                    className="size-7 ring-2 ring-ring rounded-full"
+                  />
+                ) : (
+                  <User className="size-7 p-1 ring-2 ring-ring rounded-full" />
+                )}
+
+                <span className="hidden md:block w-0.5 h-6 bg-slate-300/40" />
+
+                <div className="hidden md:block">
+                  <h2 className="font-semibold text-sm leading-4 tracking-wider">
+                    {`${user?.firstName} ${user?.lastName}`}
+                  </h2>
+                  <p className="text-xs text-primary">{user?.role}</p>
+                </div>
+
+                <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
+              </div>
             )}
-
-            <span className="hidden md:block w-0.5 h-6 bg-slate-300/40" />
-
-            <div className="hidden md:block">
-              <h2 className="font-semibold text-sm leading-4 tracking-wider">
-                {`${user?.firstName} ${user?.lastName}`}
-              </h2>
-              <p className="text-xs text-primary">{user?.role}</p>
-            </div>
-
-            <ChevronDown className="hidden md:block size-5 ms-2.5 me-1" />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent

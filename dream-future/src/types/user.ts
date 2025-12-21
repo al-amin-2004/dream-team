@@ -1,6 +1,6 @@
 import { ObjectId } from "mongoose";
 
-type UserRole = "member" | "treasurer" | "admin";
+export type UserRole = "member" | "treasurer" | "admin";
 type Gender = "Male" | "Female" | "Other" | undefined;
 type Blood =
   | "A+"

@@ -1,22 +1,22 @@
 "use client";
 
-import { useAccounts } from "@/providers/AccountContext";
+import { useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Eye, Ban, RefreshCcw, Wallet, Layers } from "lucide-react";
 import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
-import { useMemo, useState } from "react";
+import { useAllAccounts } from "@/providers/AllAccountsContext";
 
 const AccountsPage = () => {
-  const { accounts, setActiveAccount, loading } = useAccounts();
+  const { allAccounts, loading } = useAllAccounts();
   const [search, setSearch] = useState<string>("");
 
   const filteredAccounts = useMemo(() => {
-    if (!search) return accounts;
+    if (!search) return allAccounts;
 
-    return accounts.filter((acc) =>
+    return allAccounts.filter((acc) =>
       acc._id?.toString().toLowerCase().includes(search.toLowerCase())
     );
-  }, [accounts, search]);
+  }, [allAccounts, search]);
 
   if (loading) {
     return <div className="text-center py-20">Loading accounts...</div>;
@@ -42,18 +42,18 @@ const AccountsPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <StatCard
           title="Total Accounts"
-          value={accounts.length}
+          value={allAccounts.length}
           icon={<Layers />}
         />
         <StatCard
           title="Active Accounts"
-          value={accounts.filter((a) => a.status === "active").length}
+          value={allAccounts.filter((a) => a.status === "active").length}
           icon={<Wallet />}
           color="text-green-500"
         />
         <StatCard
           title="Blocked Accounts"
-          value={accounts.filter((a) => a.status === "block").length}
+          value={allAccounts.filter((a) => a.status === "block").length}
           icon={<Ban />}
           color="text-red-500"
         />
@@ -61,7 +61,7 @@ const AccountsPage = () => {
 
       {/* ================= ACCOUNTS TABLE ================= */}
       <div className="border rounded-xl overflow-hidden">
-        <table className="w-full text-sm">
+        <table className="w-full text-sm table-fixed">
           <thead className="bg-muted">
             <tr>
               <th className="p-3">Account</th>
@@ -103,14 +103,7 @@ const AccountsPage = () => {
 
                   <td className="flex gap-2 justify-center">
                     <ActionBtn icon={<Eye />} />
-                    <ActionBtn
-                      icon={<RefreshCcw />}
-                      onClick={() => setActiveAccount(account)}
-                    />
-                    <ActionBtn
-                      icon={<Ban />}
-                      danger={account.status === "active"}
-                    />
+                    <ActionBtn icon={<RefreshCcw />} />
                   </td>
                 </tr>
               );
