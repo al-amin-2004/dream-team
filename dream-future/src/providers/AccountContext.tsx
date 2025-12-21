@@ -33,7 +33,7 @@ export const AccountProvider = ({ children }: { children: ReactNode }) => {
   const refreshAccounts = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/accounts", { cache: "no-store" });
+      const res = await fetch("/api/accounts/me", { cache: "no-store" });
       const data = await res.json();
 
       if (data.ok && Array.isArray(data.accounts)) {

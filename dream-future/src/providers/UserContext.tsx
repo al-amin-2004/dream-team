@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const refreshUser = async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/user", { cache: "no-store" });
+      const res = await fetch("/api/users/me", { cache: "no-store" });
       const data = await res.json();
 
       if (data.ok) setUser(data.user);

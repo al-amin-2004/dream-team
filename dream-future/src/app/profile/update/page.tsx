@@ -123,7 +123,7 @@ const Settings = () => {
         }
       }
 
-      const res = await fetch("/api/user/update", {
+      const res = await fetch("/api/users/update", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

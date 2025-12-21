@@ -1,15 +1,15 @@
 import connectDB from "@/lib/connectDB";
-import Account from "@/models/Account";
+import User from "@/models/User";
 import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
     await connectDB();
 
-    const allAccounts = await Account.find()
-    return NextResponse.json(allAccounts);
+    const allUsers = await User.find({}).lean();
+    return NextResponse.json(allUsers);
   } catch (error) {
-    console.error("account api route error", error);
+    console.error("users api route error:", error);
     return NextResponse.json(
       { ok: false, message: "Server error" },
       { status: 500 }

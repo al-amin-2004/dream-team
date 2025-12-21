@@ -10,7 +10,7 @@ export async function PATCH(req: Request) {
   try {
     await connectDB();
 
-    // 1. Read Token
+    // Read Token
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
 
@@ -21,7 +21,7 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // 2. Decode token
+    // Decode token
     let decoded: JwtPayload & { email: string };
     try {
       decoded = jwt.verify(token, JWT_SECRET) as JwtPayload & {
@@ -34,11 +34,10 @@ export async function PATCH(req: Request) {
       );
     }
 
-    // 3. Read form raw body (JSON)
+    // Read form raw body (JSON)
     const body = await req.json();
-    
 
-    // 4. Update user
+    // Update user
     const updatedUser = await User.findOneAndUpdate(
       { email: decoded.email },
       {

@@ -8,12 +8,7 @@ const accountSchema = new Schema<IAccount>(
       ref: "User",
       required: true,
     },
-    name: {
-      type: String,
-      default: "A",
-      required: true,
-      unique: true,
-    },
+    name: { type: String, default: "A", required: true },
 
     status: { type: String, enum: ["active", "block"], default: "block" },
 
@@ -27,6 +22,9 @@ const accountSchema = new Schema<IAccount>(
   }
 );
 
+accountSchema.index({ userId: 1, name: 1 }, { unique: true });
+
 const Account =
   mongoose.models.Account || mongoose.model<IAccount>("Account", accountSchema);
+
 export default Account;
