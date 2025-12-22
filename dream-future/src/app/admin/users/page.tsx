@@ -1,13 +1,20 @@
 "use client";
 
-import Image from "next/image";
 import { useMemo, useState } from "react";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Ban, CheckCircle, Eye, Users, Shield } from "lucide-react";
 import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
 import Input from "@/app/_components/ui/Input";
 import { UserRole } from "@/types";
 import { useAllUsers } from "@/providers/AllUsersContext";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function AdminMembersPage() {
   const { allUsers } = useAllUsers();
@@ -69,16 +76,21 @@ export default function AdminMembersPage() {
         />
 
         {/* Role Filter */}
-        <select
+        <Select
           value={roleFilter}
-          onChange={(e) => setRoleFilter(e.target.value)}
-          className="w-full md:w-56 px-4 py-2 rounded-lg border bg-background outline-none focus:ring-2 focus:ring-primary"
+          onValueChange={(value) => setRoleFilter(value)}
         >
-          <option value="all">All Roles</option>
-          <option value="admin">Admin</option>
-          <option value="treasurer">Treasurer</option>
-          <option value="member">Member</option>
-        </select>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder={roleFilter} />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectItem value="all">All Roles</SelectItem>
+            <SelectItem value="admin">Admin</SelectItem>
+            <SelectItem value="treasurer">Treasurer</SelectItem>
+            <SelectItem value="member">Member</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* ================= TABLE ================= */}

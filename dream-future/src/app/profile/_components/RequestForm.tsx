@@ -18,6 +18,8 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+
+import { useUser } from "@/providers/UserContext";
 import { useAccounts } from "@/providers/AccountContext";
 
 interface formDataTypes {
@@ -27,7 +29,8 @@ interface formDataTypes {
   transactionId: string;
 }
 
-const DipositForm = () => {
+const RequestForm = () => {
+  const { user } = useUser();
   const { activeAccount } = useAccounts();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
@@ -55,12 +58,13 @@ const DipositForm = () => {
     setLoading(true);
 
     const accountId = activeAccount?._id;
+    const userId = user?._id;
 
     try {
-      const res = await fetch("/api/deposit", {
+      const res = await fetch("/api/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, accountId }),
+        body: JSON.stringify({ ...formData, userId, accountId }),
       });
 
       const data = await res.json();
@@ -196,4 +200,4 @@ const DipositForm = () => {
   );
 };
 
-export default DipositForm;
+export default RequestForm;

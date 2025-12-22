@@ -1,7 +1,7 @@
 import { ObjectId } from "mongoose";
 
 export interface IAccount {
-  _id?: ObjectId | string;
+  _id: ObjectId | string;
   name: string;
 
   userId: ObjectId | string;

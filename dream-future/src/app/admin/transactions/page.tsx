@@ -3,6 +3,13 @@
 import { useMemo, useState } from "react";
 import { Eye, Search } from "lucide-react";
 import PagesTitle from "@/app/_components/ui/PagesTitle";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 /* ================= MOCK DATA (API READY) ================= */
 const transactions = [
@@ -38,14 +45,14 @@ const transactions = [
 /* ================= PAGE ================= */
 const AdminTransactionsPage = () => {
   const [search, setSearch] = useState("");
-  const [method, setMethod] = useState("ALL");
+  const [method, setMethod] = useState("all");
 
   const filtered = useMemo(() => {
     return transactions.filter((tx) => {
       const matchSearch =
         tx.userId.includes(search) || tx.accountId.includes(search);
 
-      const matchMethod = method === "ALL" ? true : tx.method === method;
+      const matchMethod = method === "all" ? true : tx.method === method;
 
       return matchSearch && matchMethod;
     });
@@ -70,16 +77,18 @@ const AdminTransactionsPage = () => {
           />
         </div>
 
-        <select
-          value={method}
-          onChange={(e) => setMethod(e.target.value)}
-          className="px-3 py-2 bg-background border rounded-md"
-        >
-          <option value="ALL">All Status</option>
-          <option value="Bkash">Bkash</option>
-          <option value="Nagad">Nagad</option>
-          <option value="Rocket">Rocket</option>
-        </select>
+        <Select value={method} onValueChange={(value) => setMethod(value)}>
+          <SelectTrigger className="w-40">
+            <SelectValue placeholder={method} />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectItem value="all">All Methods</SelectItem>
+            <SelectItem value="Bkash">Bkash</SelectItem>
+            <SelectItem value="Nagad">Nagad</SelectItem>
+            <SelectItem value="Rocket">Rocket</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* ================= TABLE ================= */}

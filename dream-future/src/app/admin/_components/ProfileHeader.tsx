@@ -116,7 +116,7 @@ const Header = () => {
             align="start"
             className="w-[calc(100vw-20px)] md:w-65 mr-2.5 p-2.5"
           >
-            <Link href="profile">
+            <Link href="/profile">
               <DropdownMenuItem className="shadow-xl bg-accent rounded-sm p-2 mb-2">
                 {user?.avatar ? (
                   <Image

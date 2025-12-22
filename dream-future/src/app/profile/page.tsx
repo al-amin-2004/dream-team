@@ -6,7 +6,7 @@ import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
 import { useUser } from "@/providers/UserContext";
 import { useAccounts } from "@/providers/AccountContext";
 import UserDetailsList from "./_components/UserDetailsList";
-import DipositForm from "./_components/DipositForm";
+import RequestForm from "./_components//RequestForm";
 import { Loading2 } from "@/icons";
 import { motion } from "framer-motion";
 import { fadeUp, fade, stagger } from "@/lib/motion";
@@ -163,7 +163,7 @@ const Profile = () => {
         </motion.div>
       </motion.div>
 
-      <DipositForm />
+      <RequestForm />
     </motion.div>
   );
 };

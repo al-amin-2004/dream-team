@@ -4,7 +4,7 @@ type Methods = "Bkash" | "Nagad" | "Rocket" | "Cash";
 type Status = "PENDING" | "APPROVED" | "REJECTED";
 
 export interface IDeposit {
-  _id?: ObjectId | string;
+  _id: ObjectId | string;
 
   accountId: ObjectId | string;
 
