@@ -61,7 +61,7 @@ const RequestForm = () => {
     const userId = user?._id;
 
     try {
-      const res = await fetch("/api/request", {
+      const res = await fetch("/api/requests", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...formData, userId, accountId }),

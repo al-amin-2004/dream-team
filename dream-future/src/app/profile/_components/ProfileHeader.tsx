@@ -219,7 +219,7 @@ const Header = () => {
               <div>
                 <Link href="admin/">
                   <DropdownMenuItem className="cursor-pointer">
-                    Admin Paenl
+                    Admin Panel
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
