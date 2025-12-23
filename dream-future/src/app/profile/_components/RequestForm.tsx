@@ -21,6 +21,7 @@ import {
 
 import { useUser } from "@/providers/UserContext";
 import { useAccounts } from "@/providers/AccountContext";
+import { getCurrentMonth } from "@/lib/getCurrentMonth";
 
 interface formDataTypes {
   amount: number;
@@ -34,13 +35,7 @@ const RequestForm = () => {
   const { activeAccount } = useAccounts();
   const [loading, setLoading] = useState<boolean>(false);
   const [open, setOpen] = useState(false);
-  const [currentMonth] = useState(() => {
-    const today = new Date();
-    return `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(
-      2,
-      "0"
-    )}`;
-  });
+  const [currentMonth] = useState(getCurrentMonth);
   const [formData, setFormData] = useState<formDataTypes>({
     amount: 200,
     month: currentMonth,
