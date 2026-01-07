@@ -3,7 +3,9 @@ import mongoose, { Schema } from "mongoose";
 
 const depositSchema = new Schema<IDeposit>(
   {
+    userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     accountId: { type: Schema.Types.ObjectId, ref: "Account", required: true },
+
     amount: { type: Number, required: true },
     month: { type: String, required: true },
     method: {
@@ -11,9 +13,11 @@ const depositSchema = new Schema<IDeposit>(
       enum: ["Bkash", "Nagad", "Rocket", "Cash"],
       required: true,
     },
-    transactionId: String,
-    referBy: String,
-    approvedBy: String,
+    transactionId: { type: String, default: null },
+    depositDate: { type: String, required: true },
+
+    depositBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    approvedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
   {
     timestamps: true,

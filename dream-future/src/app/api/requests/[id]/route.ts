@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 import Request from "@/models/Request";
 import Account from "@/models/Account";
+import Deposit from "@/models/Deposit";
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 
@@ -36,8 +37,6 @@ export async function PATCH(
 
     const requestData = await Request.findById(id);
 
-    console.log(requestData);
-
     if (!requestData)
       return NextResponse.json(
         { message: "Request not found" },
@@ -53,6 +52,21 @@ export async function PATCH(
 
       requestData.status = "approved";
       requestData.approvedBy = decoded.userId;
+
+      /* ============ Create deposit data ================ */
+      await Deposit.create({
+        userId: requestData.userId,
+        accountId: requestData.accountId,
+        amount: requestData.amount,
+        month: requestData.month,
+        method: requestData.method,
+        transactionId:
+          requestData.method === "Cash" ? null : requestData.transactionId,
+        depositDate: requestData.createdAt,
+        depositBy:
+          requestData.method === "Cash" ? decoded.userId : requestData.userId,
+        approvedBy: decoded.userId,
+      });
     }
 
     if (action === "reject") {

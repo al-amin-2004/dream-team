@@ -2,44 +2,48 @@ import { FC } from "react";
 import { cn } from "@/lib/utils";
 import { CalendarFold } from "lucide-react";
 
-type transactionTypes = "Diposite" | "Withdraw" | "Loan";
+type transactionTypes = "Deposit" | "Withdraw" | "Loan";
 type methods = "Cash" | "Bkash" | "Nagad" | "Rocket";
 
-interface HistoryCardProps {
+export interface HistoryCardProps {
   transactionType: transactionTypes;
-  date: string;
+  month: string;
   method: methods;
   amount: number;
+  depositDate: string;
   transactionId?: string;
-  referBy?: string;
+  depositBy?: string;
 }
 
 const HistoryCardGrid: FC<HistoryCardProps> = ({
   transactionType,
-  date,
+  month,
   method,
   amount,
   transactionId,
-  referBy,
+  depositDate,
+  depositBy,
 }) => {
   return (
     <div className={cn("w-full rounded-xl p-4 max-w-[400px] bg-slate-300/10")}>
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between mb-5">
         <h2 className="text-2xl font-medium leading-6">{transactionType}</h2>
         <div className="flex items-center gap-1.5">
           <CalendarFold size={16} />
-          <p className="text-xs">{date}</p>
+          <p className="text-xs">{depositDate}</p>
         </div>
       </div>
 
       <div className="text-sm">
         <div className="flex justify-between mb-1">
-          <p>Method: {method}</p>
+          <p>Month: {month}</p>
           <p>Amount: {amount}</p>
         </div>
 
+        <p>Method: {method}</p>
+
         {method === "Cash" ? (
-          <p>Refer by: {referBy}</p>
+          <p>Deposit by: {depositBy}</p>
         ) : (
           <p>Transition ID: {transactionId}</p>
         )}
@@ -50,26 +54,28 @@ const HistoryCardGrid: FC<HistoryCardProps> = ({
 
 const HistoryCardList: FC<HistoryCardProps> = ({
   transactionType,
-  date,
+  month,
   method,
   amount,
   transactionId,
-  referBy,
+  depositDate,
+  depositBy,
 }) => {
   return (
     <div
       className={cn(
-        "w-full rounded-md p-4 min-w-[350px] bg-slate-300/10 grid grid-cols-5 place-items-center text-sm"
+        "w-full rounded-md p-4 min-w-[350px] bg-slate-300/10 grid grid-cols-6 place-items-center text-sm"
       )}
     >
       <h2>{transactionType}</h2>
+      <p>{month}</p>
       <div className="flex items-center gap-1.5">
         <CalendarFold size={16} />
-        <p>{date}</p>
+        <p>{depositDate}</p>
       </div>
       <p>{method}</p>
       <p>{amount}</p>
-      <p>{method === "Cash" ? referBy : transactionId}</p>
+      <p>{method === "Cash" ? depositBy : transactionId}</p>
     </div>
   );
 };

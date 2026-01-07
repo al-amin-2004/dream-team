@@ -1,21 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import ProfilePagesTitle from "@/app/_components/ui/PagesTitle";
+import { Button } from "@/app/_components/ui/Button";
 import { ChartAreaInteractive } from "../_components/Graph";
-import { ArrowDownUp, Funnel, LayoutGrid, List } from "lucide-react";
-import { HistoryCardGrid, HistoryCardList } from "../_components/HistoryCard";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  ArrowDownUp,
+  ArrowRight,
+  Funnel,
+  LayoutGrid,
+  List,
+} from "lucide-react";
+import {
+  HistoryCardGrid,
+  HistoryCardList,
+  HistoryCardProps,
+} from "../_components/HistoryCard";
 
 const History = () => {
   const [isGrid, setIsGrid] = useState<boolean>(true);
-  const [timeRange, setTimeRange] = useState("90d");
+  const [deposits, setDeposits] = useState<HistoryCardProps[]>([]);
+
+  useEffect(() => {
+    try {
+      const fetchHistories = async () => {
+        const res = await fetch("/api/users/deposits");
+        const data = await res.json();
+        if (data.ok) setDeposits(data.histories);
+      };
+
+      fetchHistories();
+    } catch (error) {
+      console.error("Api error", error);
+    }
+  }, []);
 
   return (
     <div className="space-y-12">
@@ -23,116 +42,122 @@ const History = () => {
       <ProfilePagesTitle
         title="History"
         description="Showing your all histories with a clear view."
-      />
+      >
+        <Link href="/profile/history/request">
+          <Button>
+            Requests <ArrowRight />
+          </Button>
+        </Link>
+      </ProfilePagesTitle>
 
       <div className="flex gap-8">
         <div className="flex-3 border-2 p-6 rounded-xl"></div>
 
-        <div className="border-2 p-6 rounded-xl flex-2 h-fit">
-          <div className="flex justify-between py-3 border-b">
-            <h1 className="text-xl font-semibold">Area Chart - Interactive</h1>
-
-            <Select value={timeRange} onValueChange={setTimeRange}>
-              <SelectTrigger
-                className="hidden w-40 rounded-lg sm:ml-auto sm:flex"
-                aria-label="Select a value"
-              >
-                <SelectValue placeholder="Last 3 months" />
-              </SelectTrigger>
-              <SelectContent className="rounded-xl">
-                <SelectItem value="90d" className="rounded-lg">
-                  Last 3 months
-                </SelectItem>
-                <SelectItem value="30d" className="rounded-lg">
-                  Last 30 days
-                </SelectItem>
-                <SelectItem value="7d" className="rounded-lg">
-                  Last 7 days
-                </SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <ChartAreaInteractive />
+        <div className="flex-2 border-2 p-6 rounded-xl">
+          <ChartAreaInteractive monthlyDate={deposits} />
         </div>
       </div>
 
-      <div className="flex gap-8">
-        <div className="flex-6 border-2 py-6 pl-6 rounded-xl">
-          <div className="py-3 flex justify-between items-center pe-6">
-            <h1 className="text-2xl font-medium mb-2.5 ps-3 relative before:absolute before:content-[''] before:w-1 before:h-10/12 before:top-4/7 before:left-0 before:bg-primary before:rounded-full before:-translate-y-1/2">
-              Your Transition Histories
-            </h1>
+      <div className="border-2 py-6 pl-6 rounded-xl">
+        <div className="py-3 flex justify-between items-center pe-6">
+          <ProfilePagesTitle
+            className="border-0 text-2xl md:text-2xl"
+            title="Your Transition Histories"
+          />
 
-            <div className="flex items-center gap-2.5">
-              <LayoutGrid
-                size={34}
-                className={`cursor-pointer p-1.5 border rounded-md ${
-                  isGrid && "bg-gray-400/10"
-                }`}
-                onClick={() => setIsGrid(true)}
-              />
-              <List
-                size={34}
-                className={`cursor-pointer p-1.5 border rounded-md me-2.5 ${
-                  !isGrid && "bg-gray-400/10"
-                }`}
-                onClick={() => setIsGrid(false)}
-              />
-              <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
-                <ArrowDownUp size={18} />
-                <span className="inline">Sort</span>
-              </div>
-              <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
-                <Funnel size={18} />
-                <span className="inline">Filter</span>
-              </div>
-            </div>
-          </div>
-
-          <div
-            className={`max-h-185 pe-6 overflow-y-scroll grid justify-items-center ${
-              isGrid
-                ? "grid-cols-[repeat(3,minmax(300px,1fr))] gap-6"
-                : "grid-cols-1 gap-2.5"
-            }`}
-          >
-            <div
-              className={`w-full rounded-md p-4 min-w-[350px] bg-background grid grid-cols-5 place-items-center text-lg font-medium border border-emerald-600 sticky top-0 ${
-                isGrid && "hidden"
+          <div className="flex items-center gap-2.5">
+            <LayoutGrid
+              size={34}
+              className={`cursor-pointer p-1.5 border rounded-md ${
+                isGrid && "bg-gray-400/10"
               }`}
-            >
-              <h2>Transaction Type</h2>
-              <p>Date</p>
-              <p>Method</p>
-              <p>Amount</p>
-              <p>Transition ID / Refer by</p>
-            </div>
+              onClick={() => setIsGrid(true)}
+            />
 
-            {Array.from({ length: 50 }).map((_, idx) => {
-              return isGrid ? (
-                <HistoryCardGrid
-                  key={idx}
-                  transactionType="Diposite"
-                  date="12/01/2025"
-                  method="Bkash"
-                  amount={200}
-                  transactionId="bq83b28d2d4"
-                />
-              ) : (
-                <HistoryCardList
-                  key={idx}
-                  transactionType="Withdraw"
-                  date="12/01/2025"
-                  method="Cash"
-                  amount={200}
-                  referBy="Al amin"
-                />
-              );
-            })}
+            <List
+              size={34}
+              className={`cursor-pointer p-1.5 border rounded-md me-2.5 ${
+                !isGrid && "bg-gray-400/10"
+              }`}
+              onClick={() => setIsGrid(false)}
+            />
+            <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
+              <ArrowDownUp size={18} />
+              <span className="inline">Sort</span>
+            </div>
+            <div className="cursor-pointer flex items-center gap-2 border px-2.5 py-1 rounded-md">
+              <Funnel size={18} />
+              <span className="inline">Filter</span>
+            </div>
           </div>
         </div>
-        <div className="flex-2 border-2 p-6 rounded-xl"></div>
+
+        <div
+          className={`max-h-185 pe-6 overflow-y-scroll grid justify-items-center ${
+            isGrid
+              ? "grid-cols-[repeat(4,minmax(300px,1fr))] gap-6"
+              : "grid-cols-1 gap-2.5"
+          }`}
+        >
+          <div
+            className={`w-full rounded-md p-4 min-w-[350px] bg-background grid grid-cols-6 place-items-center font-medium border border-emerald-600 sticky top-0 ${
+              isGrid && "hidden"
+            }`}
+          >
+            <p>Transaction Type</p>
+            <p>Month</p>
+            <p>Date</p>
+            <p>Method</p>
+            <p>Amount</p>
+            <p>Transition ID / Deposit by</p>
+          </div>
+
+          {deposits.map((deposit, idx) => {
+            return isGrid ? (
+              <HistoryCardGrid
+                key={idx}
+                transactionType="Deposit"
+                month={new Date(deposit.month).toLocaleDateString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })}
+                depositDate={new Date(deposit.depositDate).toLocaleDateString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  }
+                )}
+                method={deposit.method}
+                amount={deposit.amount}
+                transactionId={deposit.transactionId}
+                depositBy={deposit.depositBy}
+              />
+            ) : (
+              <HistoryCardList
+                key={idx}
+                transactionType="Deposit"
+                month={new Date(deposit.month).toLocaleDateString("en-US", {
+                  month: "long",
+                  year: "numeric",
+                })}
+                depositDate={new Date(deposit.depositDate).toLocaleDateString(
+                  "en-GB",
+                  {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                  }
+                )}
+                method={deposit.method}
+                amount={deposit.amount}
+                transactionId={deposit.transactionId}
+                depositBy={deposit.depositBy}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );

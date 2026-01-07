@@ -10,6 +10,10 @@ const Settings = () => {
         title="Settings"
         description="Showing your all histories with a clear view."
       />
+
+      <h1 className="text-4xl text-primary font-medium text-center animate-pulse">
+        Comming soon
+      </h1>
     </div>
   );
 };
