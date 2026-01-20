@@ -23,6 +23,6 @@ export interface IRequest {
   rejectReason?: string;
 
   approvedOrRejectedAt?: Date;
-
+  
   createdAt: Date;
 }

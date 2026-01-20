@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { cn } from "@/lib/utils";
 import { getCurrentMonth } from "@/lib/getCurrentMonth";
 import { Eye, Ban, Wallet, Layers } from "lucide-react";
@@ -21,6 +21,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { toast } from "sonner";
 
 const AccountsPage = () => {
   const [search, setSearch] = useState<string>("");
@@ -52,6 +53,39 @@ const AccountsPage = () => {
           .includes(search.toLocaleLowerCase())
     );
   }, [allAccounts, search, userMap]);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    // setLoading(true);
+
+    const accountId = depositAccount?._id;
+    const userId = depositAccount?.userId;
+
+    try {
+      const res = await fetch("/api/adminDeposit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          amount,
+          month,
+          method: "Cash",
+          userId,
+          accountId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error || "Failed");
+      setDepositAccount(null); // for dialog close
+      toast.success("Deposit request submitted!");
+    } catch (error) {
+      console.error("Update Error:", error);
+      toast.error("Failed to request submitted!");
+    } finally {
+      // setLoading(false);
+    }
+  };
 
   if (loading) {
     return <div className="text-center py-20">Loading accounts...</div>;
@@ -292,17 +326,7 @@ const AccountsPage = () => {
               <Button>Cancel</Button>
             </DialogClose>
 
-            <Button
-              disabled={!amount || !month}
-              onClick={() => {
-                console.log({
-                  accountId: depositAccount?._id,
-                  amount,
-                  month,
-                  method: "Cash",
-                });
-              }}
-            >
+            <Button disabled={!amount || !month} onClick={handleSubmit}>
               Confirm Deposit
             </Button>
           </DialogFooter>

@@ -14,10 +14,10 @@ const depositSchema = new Schema<IDeposit>(
       required: true,
     },
     transactionId: { type: String, default: null },
-    depositDate: { type: String, required: true },
+    depositDate: { type: Date, required: true, default: Date.now },
 
     depositBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    approvedBy: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    approvedBy: { type: Schema.Types.ObjectId, ref: "User" },
   },
   {
     timestamps: true,

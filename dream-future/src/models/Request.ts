@@ -23,10 +23,8 @@ const requestSchema = new Schema<IRequest>(
     },
 
     approvedBy: { type: Schema.Types.ObjectId, ref: "User" },
-    approvedAt: Date,
-
     rejectedBy: { type: Schema.Types.ObjectId, ref: "User" },
-    rejectedAt: { type: Schema.Types.ObjectId, ref: "User" },
+    approvedOrRejectedAt: Date,
     rejectReason: String,
   },
   {

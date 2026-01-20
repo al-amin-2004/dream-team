@@ -1,4 +1,4 @@
-import { ObjectId } from "mongoose";
+import { Date, ObjectId } from "mongoose";
 
 type Methods = "Bkash" | "Nagad" | "Rocket" | "Cash";
 
@@ -12,7 +12,7 @@ export interface IDeposit {
   month: string;
   method: Methods;
   transactionId?: string;
-  depositDate: string;
+  depositDate: Date;
 
   depositBy?: ObjectId | string;
   approvedBy?: ObjectId | string;

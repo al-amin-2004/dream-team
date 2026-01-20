@@ -175,7 +175,7 @@ const RequestForm = () => {
               </div>
 
               {/* Info */}
-              <p className="text-sm text-muted-foreground">
+              <p className="text-xs text-muted-foreground">
                 ⚠ Your deposit will be reviewed by treasurer or admin. Balance
                 will be updated after approval.
               </p>

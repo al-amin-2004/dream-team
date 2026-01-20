@@ -13,6 +13,7 @@ import {
   Settings,
   Users,
 } from "lucide-react";
+import { useAllRequests } from "@/providers/AllRequestsContext";
 
 const sidebarItems = [
   { label: "Dashboard", icon: <LayoutDashboard />, link: "/admin" },
@@ -38,6 +39,14 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const { allRequests } = useAllRequests();
+
+  const pendingRequests = allRequests
+    .filter((r) => r.status === "pending")
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
   return (
     <>
       <aside className={cn()}>
@@ -45,7 +54,7 @@ const Sidebar = () => {
           {sidebarItems.map((item, idx) => {
             const navActive = pathname === item.link;
             return (
-              <Link key={idx} href={item.link}>
+              <Link key={idx} href={item.link} className="relative">
                 <li
                   className={cn(
                     "p-3 border-2 border-transparent hover:border-green-500 rounded-full mb-4",
@@ -54,6 +63,12 @@ const Sidebar = () => {
                 >
                   {item.icon}
                 </li>
+
+                {pendingRequests.length > 0 && item.label === "Requests" && (
+                  <div className="absolute -right-0.5 -top-2 z-20 bg-red-600 size-5.5 text-sm flex justify-center items-center rounded-full">
+                    {pendingRequests.length}
+                  </div>
+                )}
               </Link>
             );
           })}

@@ -35,7 +35,12 @@ const AdminRequestActionPage = () => {
   const { allAccounts } = useAllAccounts();
 
   /* ================= ALL PENDING STATUS FILTERING ================= */
-  const pendingRequests = allRequests.filter((r) => r.status === "pending");
+  const pendingRequests = allRequests
+    .filter((r) => r.status === "pending")
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
   const userMap = Object.fromEntries(
     allUsers.map((u) => [u._id.toString(), u])
