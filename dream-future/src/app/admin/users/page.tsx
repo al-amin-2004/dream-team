@@ -34,6 +34,7 @@ export default function AdminMembersPage() {
       return matchSearch && matchRole;
     });
   }, [allUsers, search, roleFilter]);
+  
 
   return (
     <div className="space-y-8">
@@ -78,7 +79,7 @@ export default function AdminMembersPage() {
         {/* Role Filter */}
         <Select
           value={roleFilter}
-          onValueChange={(value) => setRoleFilter(value)}
+          onValueChange={(value) => setRoleFilter(value as "all" | UserRole)}
         >
           <SelectTrigger className="w-40">
             <SelectValue placeholder={roleFilter} />
