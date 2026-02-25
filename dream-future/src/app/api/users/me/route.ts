@@ -1,0 +1,45 @@
+import connectDB from "@/lib/connectDB";
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
+import User from "@/models/User";
+import jwt, { JwtPayload } from "jsonwebtoken";
+
+const JWT_SECRET = process.env.JWT_SECRET!;
+
+export async function GET() {
+  try {
+    await connectDB();
+
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { ok: false, message: "No auth token" },
+        { status: 401 }
+      );
+    }
+
+    const decode = jwt.verify(token, JWT_SECRET) as JwtPayload & {
+      userId: string;
+    };
+
+    const user = await User.findOne({ _id: decode.userId })
+      .select("-password")
+      .lean();
+
+    if (!user)
+      return NextResponse.json(
+        { ok: false, message: "User not found" },
+        { status: 404 }
+      );
+
+    return NextResponse.json({ ok: true, user });
+  } catch (error) {
+    console.error("me route error:", error);
+    return NextResponse.json(
+      { ok: false, message: "Server error" },
+      { status: 500 }
+    );
+  }
+}
